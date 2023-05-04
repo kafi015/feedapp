@@ -15,6 +15,9 @@ class AccomplishScreen extends StatelessWidget {
           Image.asset("assets/logo.PNG",scale: 5,),
         ],
       ),
+
+
+
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
