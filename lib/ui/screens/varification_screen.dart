@@ -1,3 +1,4 @@
+import 'package:feedapp/ui/screens/accomplish_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -46,9 +47,9 @@ class _VarificationScreenState extends State<VarificationScreen> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Enter the OTP sent to - ",style: TextStyle(fontSize: 18),),
-                const Text(
+              children: const [
+                Text("Enter the OTP sent to - ",style: TextStyle(fontSize: 18),),
+                Text(
                   " +8801234567890",
                   style: TextStyle(color: Colors.blue,fontSize: 16),
                 ),
@@ -77,20 +78,17 @@ class _VarificationScreenState extends State<VarificationScreen> {
                   inactiveColor: Colors.blue,
                   inactiveFillColor: Colors.white,
                 ),
-                animationDuration: Duration(milliseconds: 300),
+                animationDuration: const Duration(milliseconds: 300),
                 backgroundColor: Colors.white,
                 enableActiveFill: true,
                 onCompleted: (v) {
-                  print("Completed");
                 },
                 onChanged: (value) {
-                  print(value);
                   setState(() {
 
                   });
                 },
                 beforeTextPaste: (text) {
-                  print("Allowing to paste $text");
                   //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
                   //but you can show anything you want here, like your pop up saying wrong paste format or etc
                   return true;
@@ -132,7 +130,10 @@ class _VarificationScreenState extends State<VarificationScreen> {
               text: "Submit",
               textColor: Colors.white,
               buttonColor: Colors.blue,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const AccomplishScreen()));
+
+              },
             ),
 
           ],

@@ -1,43 +1,44 @@
-import 'package:feedapp/ui/screens/login_screen.dart';
-import 'package:feedapp/ui/screens/varification_screen.dart';
+import 'package:feedapp/ui/screens/register_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
 
-class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
+class LogInScreen extends StatefulWidget {
+  const LogInScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegistrationScreen> createState() => _RegistrationScreenState();
+  State<LogInScreen> createState() => _LogInScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: const Icon(Icons.home),
-        title: const Text("Register"),
+        title: const Text("LogIn"),
         centerTitle: true,
-        actions: const [
-          Icon(Icons.arrow_back_ios),
+        actions:  [
+          Image.asset("assets/logo.PNG",scale: 5,),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              "assets/register.PNG",
-              scale: 2,
+            Center(
+              child: Image.asset(
+                "assets/register.PNG",
+                scale: 1,
+              ),
             ),
             const SizedBox(
               height: 18,
             ),
             const Text(
-              "Welcome Onboard!",
+              "LogIn Details",
               style: TextStyle(
                   fontSize: 18,
                   color: Colors.black,
@@ -48,50 +49,60 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             AppTextFormField(
                 controller: TextEditingController(),
-                hintText: "Enter your name"),
+                hintText: "role, create dropdown"),
+            const SizedBox(
+              height: 16,
+            ),
+            AppTextFormField(
+                controller: TextEditingController(),
+                hintText: "Enter your phone number"),
             const SizedBox(
               height: 12,
             ),
             AppTextFormField(
                 controller: TextEditingController(),
-                hintText: "Enter your mobile"),
+                hintText: "Password"),
+            const SizedBox(
+              height: 16,
+            ),
+            Container(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: (){
+
+                },
+                child: const Text(
+                  "Forgot Password?",
+                  style: TextStyle(color: Colors.blueGrey),
+                ),
+              ),
+            ),
             const SizedBox(
               height: 12,
             ),
-            AppTextFormField(
-                controller: TextEditingController(), hintText: "Password"),
-            const SizedBox(
-              height: 12,
-            ),
-            AppTextFormField(
-                controller: TextEditingController(),
-                hintText: "Confirm password"),
-            const SizedBox(
-              height: 22,
-            ),
+
             AppElevatedButton(
-              text: "Register",
+              text: "Login",
               textColor: Colors.white,
               buttonColor: Colors.blue,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>const VarificationScreen()));
               },
             ),
             const SizedBox(
-              height: 22,
+              height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Already have an account ? "),
+                const Text("Don’t have any account? ",style: TextStyle(fontSize: 18),),
                 InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const LogInScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const RegistrationScreen()));
 
                     },
                     child: const Text(
-                      "Sign In",
-                      style: TextStyle(color: Colors.blue),
+                      "Register",
+                      style: TextStyle(color: Colors.blue,fontSize: 18),
                     )),
               ],
             ),
@@ -99,5 +110,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
+
   }
 }

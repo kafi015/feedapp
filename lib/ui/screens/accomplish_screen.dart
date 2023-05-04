@@ -1,3 +1,4 @@
+import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class AccomplishScreen extends StatelessWidget {
@@ -24,13 +25,12 @@ class AccomplishScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Image.asset("assets/success_message.PNG"),
-            ),
-            SizedBox(height: 60,),
+            Flexible(child: Image.asset("assets/success_message.PNG")),
+            const SizedBox(height: 60,),
             InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
+                },
                 child: const Text(
                   "Login to your account",
                   style: TextStyle(color: Colors.blue,fontSize: 24),
