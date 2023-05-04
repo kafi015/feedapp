@@ -20,7 +20,7 @@ class AppElevatedButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: buttonColor,
             padding: const EdgeInsets.only(bottom: 20,top: 20)),
-        child: Text(text,style: TextStyle(color: textColor),),
+        child: Text(text,style: TextStyle(color: textColor,fontSize: 18),),
       ),
     );
   }
