@@ -1,24 +1,24 @@
-import 'package:feedapp/ui/screens/forgot_varification.dart';
+import 'package:feedapp/ui/screens/pass_change_message.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/app_elevatedbutton.dart';
 import '../widgets/app_textformfield.dart';
 
-class ForgotPasswprdScreen extends StatefulWidget {
-  const ForgotPasswprdScreen({Key? key}) : super(key: key);
+class SetPasswordScreen extends StatefulWidget {
+  const SetPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<ForgotPasswprdScreen> createState() => _ForgotPasswprdScreenState();
+  State<SetPasswordScreen> createState() => _SetPasswordScreenState();
 }
 
-class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
+class _SetPasswordScreenState extends State<SetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: const Icon(Icons.home),
-        title: const Text("Forget Password?"),
+        title: const Text("Verification"),
         centerTitle: true,
         actions:  [
           Image.asset("assets/logo.png",scale: 5,),
@@ -31,53 +31,66 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               Center(
                 child: Image.asset(
-                  "assets/forgot_password.png",
+                  "assets/varification.png",
                   scale: 2,
                 ),
               ),
               const SizedBox(
-                height: 18,
+                height: 60,
               ),
-              const Center(
+              const Padding(
+                padding: EdgeInsets.only(left: 20.0),
                 child: Text(
-                  "Forgot\nPassword?",
+                  "New Password",
                   style: TextStyle(
-                      fontSize: 28,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600),
+                      fontSize: 18,
+                      color: Colors.grey,
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 18,
-              ),
-              const Text(
-                "Don’t worry ! It happens. Please enter the phone number we will send the OTP in this phone number.",
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                   ),
-              ),
-
-              const SizedBox(
-                height: 40,
+                height: 10,
               ),
               AppTextFormField(
                   controller: TextEditingController(),
-                  hintText: "Enter the phone number"),
+                  hintText: "New Password"),
+
               const SizedBox(
-                height: 80,
+                height: 30,
               ),
 
+              const Padding(
+                padding: EdgeInsets.only(left: 20.0),
+                child: Text(
+                  "Confirm Password",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              AppTextFormField(
+                  controller: TextEditingController(),
+                  hintText: "Confirm Password"),
+
+              const SizedBox(
+                height: 150,
+              ),
+
+
               AppElevatedButton(
-                text: "Continue",
+                text: "Submit",
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const ForgotVarification()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const PassChangeMessage()));
                 },
               ),
 
@@ -86,6 +99,5 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
         ),
       ),
     );
-
   }
 }

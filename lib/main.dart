@@ -1,10 +1,12 @@
 import 'package:feedapp/ui/screens/accomplish_screen.dart';
 import 'package:feedapp/ui/screens/login_screen.dart';
+import 'package:feedapp/ui/screens/pass_change_message.dart';
 import 'package:feedapp/ui/screens/register_screen.dart';
 import 'package:feedapp/ui/screens/varification_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/screens/forgot_password_screen.dart';
+import 'ui/screens/set_password_screen.dart';
 
 void main()
 {
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
      // home: RegistrationScreen(),
-      home: ForgotPasswprdScreen(),
+      home: LogInScreen(),
     );
   }
 }

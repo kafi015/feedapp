@@ -1,16 +1,17 @@
-import 'package:feedapp/ui/screens/accomplish_screen.dart';
-import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
+import 'package:feedapp/ui/screens/set_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class VarificationScreen extends StatefulWidget {
-  const VarificationScreen({Key? key}) : super(key: key);
+import '../widgets/app_elevatedbutton.dart';
+
+class ForgotVarification extends StatefulWidget {
+  const ForgotVarification({Key? key}) : super(key: key);
 
   @override
-  State<VarificationScreen> createState() => _VarificationScreenState();
+  State<ForgotVarification> createState() => _ForgotVarificationState();
 }
 
-class _VarificationScreenState extends State<VarificationScreen> {
+class _ForgotVarificationState extends State<ForgotVarification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,15 +30,13 @@ class _VarificationScreenState extends State<VarificationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 10,),
               Image.asset(
                 "assets/varification.png",
                 scale: 2,
               ),
               const SizedBox(
-                height: 22,
+                height: 28,
               ),
               const Text(
                 "OTP VERIFICATION REGISTER",
@@ -106,12 +105,12 @@ class _VarificationScreenState extends State<VarificationScreen> {
               const Text(
                 "00:120 Sec",
                 style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.red,
-                    ),
+                  fontSize: 18,
+                  color: Colors.red,
+                ),
               ),
               const SizedBox(
-                height: 22,
+                height: 40,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +134,7 @@ class _VarificationScreenState extends State<VarificationScreen> {
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const AccomplishScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const SetPasswordScreen()));
 
                 },
               ),
@@ -145,5 +144,6 @@ class _VarificationScreenState extends State<VarificationScreen> {
         ),
       ),
     );
+
   }
 }

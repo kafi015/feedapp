@@ -4,6 +4,8 @@ import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
 
+const List<String> list = <String>['Admin', 'Employee'];
+
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
@@ -12,6 +14,10 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+
+
+  String _dropDownValue = list.first;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +36,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(
+                height: 20,
+              ),
               Image.asset(
-                "assets/register.PNG",
+                "assets/register.png",
                 scale: 2,
               ),
               const SizedBox(
@@ -43,6 +52,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     fontSize: 18,
                     color: Colors.black,
                     fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: DropdownButton<String>(
+                  icon: const Icon(Icons.arrow_downward),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.blue,
+                  ),
+                  borderRadius: BorderRadius.circular(34.5),
+                  isExpanded: true,
+                  value: _dropDownValue,
+                  onChanged: (String? value) async {
+
+                    setState(() {
+                      _dropDownValue = value!.trim();
+                    });
+                  },
+
+                  items: list.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text("\t\t\t"+value,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+                    );
+                  }).toList(),
+                ),
               ),
               const SizedBox(
                 height: 16,
@@ -75,7 +115,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const VarificationScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const VarificationScreen()));
                 },
               ),
               const SizedBox(
@@ -84,15 +127,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Already have an account ? "),
+                  const Text("Already have an account ? ",style: TextStyle(fontSize: 18),),
                   InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const LogInScreen()));
-
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LogInScreen()));
                       },
                       child: const Text(
                         "Sign In",
-                        style: TextStyle(color: Colors.blue),
+                        style: TextStyle(color: Colors.blue,fontSize: 18),
                       )),
                 ],
               ),
