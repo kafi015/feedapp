@@ -29,7 +29,7 @@ class AccomplishScreen extends StatelessWidget {
             const SizedBox(height: 60,),
             InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const LogInScreen()));
                 },
                 child: const Text(
                   "Login to your account",

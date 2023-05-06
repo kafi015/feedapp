@@ -26,76 +26,78 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/register.PNG",
-              scale: 2,
-            ),
-            const SizedBox(
-              height: 18,
-            ),
-            const Text(
-              "Welcome Onboard!",
-              style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            AppTextFormField(
-                controller: TextEditingController(),
-                hintText: "Enter your name"),
-            const SizedBox(
-              height: 12,
-            ),
-            AppTextFormField(
-                controller: TextEditingController(),
-                hintText: "Enter your mobile"),
-            const SizedBox(
-              height: 12,
-            ),
-            AppTextFormField(
-                controller: TextEditingController(), hintText: "Password"),
-            const SizedBox(
-              height: 12,
-            ),
-            AppTextFormField(
-                controller: TextEditingController(),
-                hintText: "Confirm password"),
-            const SizedBox(
-              height: 22,
-            ),
-            AppElevatedButton(
-              text: "Register",
-              textColor: Colors.white,
-              buttonColor: Colors.blue,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>const VarificationScreen()));
-              },
-            ),
-            const SizedBox(
-              height: 22,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Already have an account ? "),
-                InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const LogInScreen()));
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/register.PNG",
+                scale: 2,
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              const Text(
+                "Welcome Onboard!",
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              AppTextFormField(
+                  controller: TextEditingController(),
+                  hintText: "Enter your name"),
+              const SizedBox(
+                height: 12,
+              ),
+              AppTextFormField(
+                  controller: TextEditingController(),
+                  hintText: "Enter your mobile"),
+              const SizedBox(
+                height: 12,
+              ),
+              AppTextFormField(
+                  controller: TextEditingController(), hintText: "Password"),
+              const SizedBox(
+                height: 12,
+              ),
+              AppTextFormField(
+                  controller: TextEditingController(),
+                  hintText: "Confirm password"),
+              const SizedBox(
+                height: 22,
+              ),
+              AppElevatedButton(
+                text: "Register",
+                textColor: Colors.white,
+                buttonColor: Colors.blue,
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const VarificationScreen()));
+                },
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Already have an account ? "),
+                  InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const LogInScreen()));
 
-                    },
-                    child: const Text(
-                      "Sign In",
-                      style: TextStyle(color: Colors.blue),
-                    )),
-              ],
-            ),
-          ],
+                      },
+                      child: const Text(
+                        "Sign In",
+                        style: TextStyle(color: Colors.blue),
+                      )),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
