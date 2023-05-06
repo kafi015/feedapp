@@ -12,8 +12,12 @@ class ForgotPasswprdScreen extends StatefulWidget {
 }
 
 class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
+  late double height;
+  late double width;
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -21,55 +25,55 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
         title: const Text("Forget Password?"),
         centerTitle: true,
         actions:  [
-          Image.asset("assets/logo.png",scale: 5,),
+          Image.asset("assets/logo.png",scale: height/200,),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding:  EdgeInsets.symmetric(horizontal: width * .05),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 10,
+               SizedBox(
+                height: height* .04,
               ),
               Center(
                 child: Image.asset(
                   "assets/forgot_password.png",
-                  scale: 2,
+                  scale: height* .002,
                 ),
               ),
-              const SizedBox(
-                height: 18,
+               SizedBox(
+                height: height* .04,
               ),
-              const Center(
+               Center(
                 child: Text(
                   "Forgot\nPassword?",
                   style: TextStyle(
-                      fontSize: 28,
+                      fontSize: height* .04,
                       color: Colors.black,
                       fontWeight: FontWeight.w600),
                 ),
               ),
-              const SizedBox(
-                height: 18,
+               SizedBox(
+                height: height* .04,
               ),
-              const Text(
+              Text(
                 "Don’t worry ! It happens. Please enter the phone number we will send the OTP in this phone number.",
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: height* .021,
                     color: Colors.black,
                    ),
               ),
 
-              const SizedBox(
-                height: 40,
+               SizedBox(
+                height: height* .04,
               ),
               AppTextFormField(
                   controller: TextEditingController(),
                   hintText: "Enter the phone number"),
-              const SizedBox(
-                height: 80,
+               SizedBox(
+                height: height* .1,
               ),
 
               AppElevatedButton(

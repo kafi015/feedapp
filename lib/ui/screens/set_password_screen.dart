@@ -12,8 +12,12 @@ class SetPasswordScreen extends StatefulWidget {
 }
 
 class _SetPasswordScreenState extends State<SetPasswordScreen> {
+  late double height;
+  late double width;
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -21,67 +25,67 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
         title: const Text("Verification"),
         centerTitle: true,
         actions:  [
-          Image.asset("assets/logo.png",scale: 5,),
+          Image.asset("assets/logo.png",scale: height/200,),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding:  EdgeInsets.symmetric(horizontal: width * 0.05),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 20,
+               SizedBox(
+                height:  height* .04,
               ),
               Center(
                 child: Image.asset(
                   "assets/varification.png",
-                  scale: 2,
+                  scale:  height* .002,
                 ),
               ),
-              const SizedBox(
-                height: 60,
+              SizedBox(
+                height:  height* .08,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20.0),
+               Padding(
+                padding: EdgeInsets.only(left:  width* .04),
                 child: Text(
                   "New Password",
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize:  height* .023,
                       color: Colors.grey,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
+               SizedBox(
+                height:  height* .01,
               ),
               AppTextFormField(
                   controller: TextEditingController(),
                   hintText: "New Password"),
 
-              const SizedBox(
-                height: 30,
+               SizedBox(
+                height:  height* .04,
               ),
 
-              const Padding(
-                padding: EdgeInsets.only(left: 20.0),
+               Padding(
+                padding: EdgeInsets.only(left:  width* .04),
                 child: Text(
                   "Confirm Password",
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize:  height* .023,
                       color: Colors.grey,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
+               SizedBox(
+                height:  height* .01,
               ),
               AppTextFormField(
                   controller: TextEditingController(),
                   hintText: "Confirm Password"),
 
-              const SizedBox(
-                height: 150,
+               SizedBox(
+                height:  height* .12,
               ),
 
 

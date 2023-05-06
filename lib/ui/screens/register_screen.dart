@@ -17,9 +17,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
 
   String _dropDownValue = list.first;
+  late double height;
+  late double width;
 
   @override
   Widget build(BuildContext context) {
+
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -31,33 +37,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding:  EdgeInsets.symmetric(horizontal: width * .05),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 20,
+               SizedBox(
+                height: height* .04,
               ),
               Image.asset(
                 "assets/register.png",
-                scale: 2,
+                scale: height* 0.002,
               ),
               const SizedBox(
                 height: 18,
               ),
-              const Text(
+               Text(
                 "Welcome Onboard!",
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: height* .035,
                     color: Colors.black,
                     fontWeight: FontWeight.w600),
               ),
-              const SizedBox(
-                height: 16,
+               SizedBox(
+                height: height* .04,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding:  EdgeInsets.symmetric(horizontal: width* .05),
                 child: DropdownButton<String>(
                   icon: const Icon(Icons.arrow_downward),
                   elevation: 16,
@@ -79,36 +85,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   items: list.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text("\t\t\t"+value,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+                      child: Text("\t\t\t$value",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
                     );
                   }).toList(),
                 ),
               ),
-              const SizedBox(
-                height: 16,
+               SizedBox(
+                height: height* .013,
               ),
               AppTextFormField(
                   controller: TextEditingController(),
                   hintText: "Enter your name"),
-              const SizedBox(
-                height: 12,
+              SizedBox(
+                height: height* .013,
               ),
               AppTextFormField(
                   controller: TextEditingController(),
                   hintText: "Enter your mobile"),
-              const SizedBox(
-                height: 12,
+              SizedBox(
+                height: height* .013,
               ),
               AppTextFormField(
                   controller: TextEditingController(), hintText: "Password"),
-              const SizedBox(
-                height: 12,
+              SizedBox(
+                height: height* .013,
               ),
               AppTextFormField(
                   controller: TextEditingController(),
                   hintText: "Confirm password"),
-              const SizedBox(
-                height: 22,
+              SizedBox(
+                height: height* .04,
               ),
               AppElevatedButton(
                 text: "Register",
@@ -121,13 +127,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           builder: (context) => const VarificationScreen()));
                 },
               ),
-              const SizedBox(
-                height: 22,
+               SizedBox(
+                height: height * 0.05,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Already have an account ? ",style: TextStyle(fontSize: 18),),
+                   Text("Already have an account ? ",style: TextStyle(fontSize: height*0.023),),
                   InkWell(
                       onTap: () {
                         Navigator.push(
@@ -135,9 +141,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             MaterialPageRoute(
                                 builder: (context) => const LogInScreen()));
                       },
-                      child: const Text(
+                      child:  Text(
                         "Sign In",
-                        style: TextStyle(color: Colors.blue,fontSize: 18),
+                        style: TextStyle(color: Colors.blue,fontSize: height*0.023),
                       )),
                 ],
               ),

@@ -68,7 +68,7 @@ class _LogInScreenState extends State<LogInScreen> {
               ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: width* .05),
                 child: DropdownButton<String>(
                     icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
@@ -141,9 +141,9 @@ class _LogInScreenState extends State<LogInScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                   Text(
                     "Don’t have any account? ",
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: height*0.023),
                   ),
                   InkWell(
                       onTap: () {
@@ -153,9 +153,9 @@ class _LogInScreenState extends State<LogInScreen> {
                                 builder: (context) =>
                                     const RegistrationScreen()));
                       },
-                      child: const Text(
+                      child:  Text(
                         "Register",
-                        style: TextStyle(color: Colors.blue, fontSize: 18),
+                        style: TextStyle(color: Colors.blue, fontSize: height*0.023),
                       )),
                 ],
               ),

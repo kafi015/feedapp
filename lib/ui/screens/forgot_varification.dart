@@ -12,8 +12,12 @@ class ForgotVarification extends StatefulWidget {
 }
 
 class _ForgotVarificationState extends State<ForgotVarification> {
+  late double height;
+  late double width;
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -25,45 +29,49 @@ class _ForgotVarificationState extends State<ForgotVarification> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding:  EdgeInsets.symmetric(horizontal: width * .05),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 10,),
+              SizedBox(
+                height: height* .04,
+              ),
               Image.asset(
                 "assets/varification.png",
-                scale: 2,
+                scale: height* .002,
               ),
-              const SizedBox(
-                height: 28,
+              SizedBox(
+                height: height* .06,
               ),
-              const Text(
+              Text(
                 "OTP VERIFICATION REGISTER",
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: height* .03,
                     color: Colors.black,
                     fontWeight: FontWeight.w600),
               ),
-              const SizedBox(
-                height: 16,
+              SizedBox(
+                height: height* .04,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text("Enter the OTP sent to - ",style: TextStyle(fontSize: 18),),
+                children:  [
+                  Text(
+                    "Enter the OTP sent to - ",
+                    style: TextStyle(fontSize: height* .023),
+                  ),
                   Text(
                     " +8801234567890",
-                    style: TextStyle(color: Colors.blue,fontSize: 16),
+                    style: TextStyle(color: Colors.blue, fontSize: height* .023),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 16,
+              SizedBox(
+                height: height* .04,
               ),
-
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                padding:  EdgeInsets.symmetric(horizontal: width * .13),
                 child: PinCodeTextField(
                   cursorColor: Colors.blue,
                   length: 4,
@@ -84,61 +92,60 @@ class _ForgotVarificationState extends State<ForgotVarification> {
                   animationDuration: const Duration(milliseconds: 300),
                   backgroundColor: Colors.white,
                   enableActiveFill: true,
-                  onCompleted: (v) {
-                  },
+                  onCompleted: (v) {},
                   onChanged: (value) {
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                   beforeTextPaste: (text) {
                     //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
                     //but you can show anything you want here, like your pop up saying wrong paste format or etc
                     return true;
-                  }, appContext: context,
+                  },
+                  appContext: context,
                 ),
               ),
-
-              const SizedBox(
-                height: 16,
+              SizedBox(
+                height: height* .03,
               ),
-              const Text(
+              Text(
                 "00:120 Sec",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: height* .022,
                   color: Colors.red,
                 ),
               ),
-              const SizedBox(
-                height: 40,
+              SizedBox(
+                height: height* .04,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don’t receive code ? ",style: TextStyle(fontSize: 18),),
+                  Text(
+                    "Don’t receive code ? ",
+                    style: TextStyle(fontSize: height* .023),
+                  ),
                   InkWell(
                       onTap: () {},
-                      child: const Text(
+                      child:  Text(
                         "Re-send",
-                        style: TextStyle(color: Colors.blue,fontSize: 18),
+                        style: TextStyle(color: Colors.blue, fontSize: height* .023),
                       )),
                 ],
               ),
-              const SizedBox(
-                height: 150,
+              SizedBox(
+                height: height* .1,
               ),
-
-
               AppElevatedButton(
                 text: "Submit",
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const SetPasswordScreen()));
-
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SetPasswordScreen()));
                 },
               ),
-
             ],
           ),
         ),

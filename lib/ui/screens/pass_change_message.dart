@@ -6,6 +6,8 @@ class PassChangeMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -13,27 +15,27 @@ class PassChangeMessage extends StatelessWidget {
         title: const Text("Password Change"),
         centerTitle: true,
         actions:  [
-          Image.asset("assets/logo.png",scale: 5,),
+          Image.asset("assets/logo.png",scale: height/200,),
         ],
       ),
 
 
 
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding:  EdgeInsets.symmetric(horizontal: width* 0.05),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Flexible(child: Image.asset("assets/pass_change_message.png")),
-            const SizedBox(height: 60,),
+             SizedBox(height: height * 0.08,),
             InkWell(
                 onTap: () {
                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const LogInScreen()));
                 },
-                child: const Text(
+                child:  Text(
                   "Login to your account",
-                  style: TextStyle(color: Colors.blue,fontSize: 24),
+                  style: TextStyle(color: Colors.blue,fontSize: height * 0.032),
                 )),
           ],
         ),
