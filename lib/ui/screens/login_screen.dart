@@ -34,7 +34,7 @@ class _LogInScreenState extends State<LogInScreen> {
         actions: [
           Image.asset(
             "assets/logo.png",
-            scale: height/200,
+            scale: height/150,
           ),
         ],
       ),
@@ -50,19 +50,22 @@ class _LogInScreenState extends State<LogInScreen> {
               Center(
                 child: Image.asset(
                   "assets/login.png",
-                  scale: height* 0.002,
+                  scale: height* 0.003,
                 ),
               ),
                SizedBox(
                 height: height* .06,
               ),
-               Text(
-                "\t\tLogIn Details",
-                style: TextStyle(
-                    fontSize: height* .03,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600),
+               Padding(
+                 padding: const EdgeInsets.only(left: 20.0),
+                 child: Text(
+                  "LogIn Details",
+                  style: TextStyle(
+                      fontSize: height* .03,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600),
               ),
+               ),
                SizedBox(
                 height: height* .04,
               ),
@@ -90,7 +93,10 @@ class _LogInScreenState extends State<LogInScreen> {
                     items: list.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text("\t\t\t$value",style:  TextStyle(fontSize: height* .025,fontWeight: FontWeight.w600),),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Text("$value",style:  TextStyle(fontSize: height* .025,fontWeight: FontWeight.w600),),
+                        ),
                       );
                     }).toList(),
                 ),

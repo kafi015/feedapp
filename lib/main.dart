@@ -1,4 +1,5 @@
 import 'package:feedapp/ui/screens/accomplish_screen.dart';
+import 'package:feedapp/ui/screens/dashboard.dart';
 import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/screens/pass_change_message.dart';
 import 'package:feedapp/ui/screens/register_screen.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
      // home: RegistrationScreen(),
-      home: LogInScreen(),
+      home: Dashboard(),
     );
   }
 }
