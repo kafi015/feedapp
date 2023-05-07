@@ -1,8 +1,11 @@
+import 'package:feedapp/ui/screens/dashboard.dart';
 import 'package:feedapp/ui/screens/forgot_password_screen.dart';
 import 'package:feedapp/ui/screens/register_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/appbar_logo.dart';
 
 const List<String> list = <String>['Admin', 'Employee'];
 
@@ -32,10 +35,7 @@ class _LogInScreenState extends State<LogInScreen> {
         title: const Text("LogIn"),
         centerTitle: true,
         actions: [
-          Image.asset(
-            "assets/logo.png",
-            scale: height/150,
-          ),
+          AppBarLogo(height: height),
         ],
       ),
       body: Padding(
@@ -95,7 +95,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         value: value,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20.0),
-                          child: Text("$value",style:  TextStyle(fontSize: height* .025,fontWeight: FontWeight.w600),),
+                          child: Text(value,style:  TextStyle(fontSize: height* .025,fontWeight: FontWeight.w600),),
                         ),
                       );
                     }).toList(),
@@ -172,3 +172,5 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 }
+
+

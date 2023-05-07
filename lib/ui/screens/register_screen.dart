@@ -32,8 +32,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         leading: const Icon(Icons.home),
         title: const Text("Register"),
         centerTitle: true,
-        actions: const [
-          Icon(Icons.arrow_back_ios),
+        actions:  [
+          InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back_ios),
+          ),
         ],
       ),
       body: Padding(
@@ -85,7 +90,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   items: list.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text("\t\t\t$value",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: Text(value,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+                      ),
                     );
                   }).toList(),
                 ),

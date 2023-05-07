@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/appbar_logo.dart';
 import '../widgets/dashboard_button.dart';
 
 class Dashboard extends StatefulWidget {
@@ -20,10 +21,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Image.asset(
-          "assets/logo.png",
-          scale: height / 150,
-        ),
+        leading: AppBarLogo(height: height),
         title: Text("Dashboard"),
         centerTitle: true,
       ),

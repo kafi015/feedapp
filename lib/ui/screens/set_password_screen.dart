@@ -1,4 +1,5 @@
 import 'package:feedapp/ui/screens/pass_change_message.dart';
+import 'package:feedapp/ui/widgets/appbar_logo.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/app_elevatedbutton.dart';
@@ -25,7 +26,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
         title: const Text("Verification"),
         centerTitle: true,
         actions:  [
-          Image.asset("assets/logo.png",scale: height/200,),
+          AppBarLogo(height: height)
         ],
       ),
       body: Padding(

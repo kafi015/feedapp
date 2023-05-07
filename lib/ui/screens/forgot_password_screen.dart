@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/app_elevatedbutton.dart';
 import '../widgets/app_textformfield.dart';
+import '../widgets/appbar_logo.dart';
 
 class ForgotPasswprdScreen extends StatefulWidget {
   const ForgotPasswprdScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
         title: const Text("Forget Password?"),
         centerTitle: true,
         actions:  [
-          Image.asset("assets/logo.png",scale: height/200,),
+          AppBarLogo(height: height),
         ],
       ),
       body: Padding(

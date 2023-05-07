@@ -1,6 +1,8 @@
 import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/appbar_logo.dart';
+
 class AccomplishScreen extends StatelessWidget {
   const AccomplishScreen({Key? key}) : super(key: key);
 
@@ -15,7 +17,7 @@ class AccomplishScreen extends StatelessWidget {
         title: const Text("Accomplish"),
         centerTitle: true,
         actions:  [
-          Image.asset("assets/logo.png",scale: height/200,),
+          AppBarLogo(height: height),
         ],
       ),
 

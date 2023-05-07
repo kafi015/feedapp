@@ -24,8 +24,13 @@ class _VarificationScreenState extends State<VarificationScreen> {
         leading: const Icon(Icons.home),
         title: const Text("Verification"),
         centerTitle: true,
-        actions: const [
-          Icon(Icons.arrow_back_ios),
+        actions:  [
+          InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back_ios),
+          ),
         ],
       ),
       body: Padding(

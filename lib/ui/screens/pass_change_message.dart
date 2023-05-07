@@ -1,4 +1,5 @@
 import 'package:feedapp/ui/screens/login_screen.dart';
+import 'package:feedapp/ui/widgets/appbar_logo.dart';
 import 'package:flutter/material.dart';
 
 class PassChangeMessage extends StatelessWidget {
@@ -15,7 +16,7 @@ class PassChangeMessage extends StatelessWidget {
         title: const Text("Password Change"),
         centerTitle: true,
         actions:  [
-          Image.asset("assets/logo.png",scale: height/200,),
+          AppBarLogo(height: height),
         ],
       ),
 
