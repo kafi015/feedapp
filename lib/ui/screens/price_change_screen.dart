@@ -17,7 +17,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    MyAlertDialog(context) {
+    myAlertDialog(context) {
       return showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -25,12 +25,12 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
               child: AlertDialog(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(34.0),
-                    side: BorderSide(
+                    side: const BorderSide(
                         width: 3,
                         color: Colors.blue
                     )
                 ),
-                title: Text("মূল্য পরিবর্তন",style: TextStyle(color: Colors.blue),),
+                title: const Text("মূল্য পরিবর্তন",style: TextStyle(color: Colors.blue),),
                 content: AppTextFormField(controller: TextEditingController(),hintText: "",),
                 actions: [
                   Padding(
@@ -42,7 +42,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Done")),
+                        child: const Text("Done")),
                   ),
 
                 ],
@@ -54,7 +54,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(200),
+        preferredSize: const Size.fromHeight(200),
         child: Container(
           color: Colors.blue,
           child: Column(
@@ -62,8 +62,8 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
             children: [
               AppBar(
                 elevation: 0,
-                leading: Icon(Icons.home),
-                title: Text("Price Change"),
+                leading: const Icon(Icons.home),
+                title: const Text("Price Change"),
                 centerTitle: true,
                 actions: [
                   InkWell(
@@ -74,16 +74,17 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: TextFormField(
+                  controller: TextEditingController(),
                   decoration: InputDecoration(
                     hintText: "Search",
-                    hintStyle: TextStyle(color: Colors.grey),
-                    suffixIcon: Icon(Icons.search),
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    suffixIcon: const Icon(Icons.search),
                     suffixIconColor: Colors.blue,
                     filled: true,
                     fillColor: Colors.white,
@@ -94,17 +95,17 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
-                margin: EdgeInsets.only(left: 30),
+                margin: const EdgeInsets.only(left: 30),
                 padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+                    const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0)),
-                child: Text(
+                child: const Text(
                   "Edit Price",
                   style: TextStyle(color: Colors.blue, fontSize: 20),
                 ),
@@ -119,23 +120,23 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
           itemCount: 100,
           itemBuilder: (context, index) {
             return Card(
-              margin: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 20),
               elevation: 10,
               color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(34.0),
-                side: BorderSide(width: 1, color: Colors.blue),
+                side: const BorderSide(width: 1, color: Colors.blue),
               ),
               child: ListTile(
-                title: Text(
+                title: const Text(
                   "প্রোটিন-এ সি আই",
                   style: TextStyle(color: Colors.blue),
                 ),
                 trailing: InkWell(
                     onTap: () {
-                      MyAlertDialog(context);
+                      myAlertDialog(context);
                     },
-                    child: Text(
+                    child: const Text(
                       "০০০ টাকা",
                       style: TextStyle(color: Colors.blue),
                     )),

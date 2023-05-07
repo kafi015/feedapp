@@ -1,4 +1,5 @@
 import 'package:feedapp/ui/screens/price_change_screen.dart';
+import 'package:feedapp/ui/screens/sell%20info%20screen/sell_info_due_check_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +51,7 @@ class _AdminstratorScreenState extends State<AdminstratorScreen> {
               height: height * 0.08,
             ),
             DashboardButton(text: 'বেচা-কেনার তথ্য', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const SellInfoDueCheckScreen()));
             },),
             SizedBox(
               height: height * 0.4,
