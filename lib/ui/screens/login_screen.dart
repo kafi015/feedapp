@@ -6,6 +6,7 @@ import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/appbar_logo.dart';
+import 'adminstrator_screen.dart';
 
 const List<String> list = <String>['Admin', 'Employee'];
 
@@ -139,7 +140,16 @@ class _LogInScreenState extends State<LogInScreen> {
                 text: "Login",
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
-                onTap: () {},
+                onTap: () {
+                  if(_dropDownValue == "Admin")
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const AdminstratorScreen()));
+                    }
+                  else if( _dropDownValue == "Employee")
+                    {
+
+                    }
+                },
               ),
                SizedBox(
                 height: height* .07,

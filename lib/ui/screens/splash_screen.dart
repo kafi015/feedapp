@@ -1,3 +1,4 @@
+import 'package:feedapp/ui/screens/dashboard.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 
@@ -33,16 +34,18 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(height: height * 0.12,),
             Image.asset("assets/logo.png",scale: 2,),
             SizedBox(height: height * 0.3,),
-            const Text("Welcome!",style: TextStyle(fontSize: 32,color: Colors.white,fontWeight: FontWeight.w600),),
+             Text("Welcome!",style: TextStyle(fontSize: height * 0.05,color: Colors.white,fontWeight: FontWeight.w600),),
              SizedBox(height: height * 0.01,),
-            const Text("Thanks for visit IP feed mobile app.\nBuy your desire things.",style: TextStyle(fontSize: 18,color: Colors.white),),
+             Text("Thanks for visit IP feed mobile app.\nBuy your desire things.",style: TextStyle(fontSize: height * 0.02,color: Colors.white),),
             SizedBox(height: height * 0.1,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: AppElevatedButton(text: "Cool, let's go", textColor: Colors.blue, buttonColor: Colors.white, onTap: (){}),
+              child: AppElevatedButton(text: "Cool, let's go", textColor: Colors.blue, buttonColor: Colors.white, onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const Dashboard()));
+              }),
             ),
             SizedBox(height: height * 0.03,),
-            const Text("Buy.Convince",style: TextStyle(fontSize: 32,color: Colors.white,fontWeight: FontWeight.w600),),
+             Text("Buy.Convince",style: TextStyle(fontSize: height * 0.05,color: Colors.white,fontWeight: FontWeight.w600),),
           ],
         ),
       ),
