@@ -1,3 +1,4 @@
+import 'package:feedapp/ui/screens/price_change_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +43,7 @@ class _AdminstratorScreenState extends State<AdminstratorScreen> {
               height: height * 0.08,
             ),
             DashboardButton(text: 'দাম পরিবর্তন', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const PriceChangeScreen()));
 
             },),
             SizedBox(
