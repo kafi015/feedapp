@@ -23,7 +23,7 @@ class _AdminstratorScreenState extends State<AdminstratorScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: AppBarLogo(height: height),
-        title: Text("Adminstrator"),
+        title: const Text("Adminstrator"),
         centerTitle: true,
         actions: [
           InkWell(

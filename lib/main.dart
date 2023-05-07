@@ -3,6 +3,7 @@ import 'package:feedapp/ui/screens/adminstrator_screen.dart';
 import 'package:feedapp/ui/screens/dashboard.dart';
 import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/screens/pass_change_message.dart';
+import 'package:feedapp/ui/screens/price_change_screen.dart';
 import 'package:feedapp/ui/screens/register_screen.dart';
 import 'package:feedapp/ui/screens/splash_screen.dart';
 import 'package:feedapp/ui/screens/varification_screen.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AdminstratorScreen(),
+      home: PriceChangeScreen(),
      // home: SplashScreen(),
     );
   }
