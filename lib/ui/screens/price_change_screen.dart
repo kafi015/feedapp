@@ -1,6 +1,8 @@
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/appbar_home_icon_button.dart';
+
 class PriceChangeScreen extends StatefulWidget {
   const PriceChangeScreen({Key? key}) : super(key: key);
 
@@ -25,13 +27,15 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
               child: AlertDialog(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(34.0),
-                    side: const BorderSide(
-                        width: 3,
-                        color: Colors.blue
-                    )
+                    side: const BorderSide(width: 3, color: Colors.blue)),
+                title: const Text(
+                  "মূল্য পরিবর্তন",
+                  style: TextStyle(color: Colors.blue),
                 ),
-                title: const Text("মূল্য পরিবর্তন",style: TextStyle(color: Colors.blue),),
-                content: AppTextFormField(controller: TextEditingController(),hintText: "",),
+                content: AppTextFormField(
+                  controller: TextEditingController(),
+                  hintText: "",
+                ),
                 actions: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -44,7 +48,6 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                         },
                         child: const Text("Done")),
                   ),
-
                 ],
               ),
             );
@@ -62,7 +65,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
             children: [
               AppBar(
                 elevation: 0,
-                leading: const Icon(Icons.home),
+                leading: const AppBarHomeIconButton(),
                 title: const Text("Price Change"),
                 centerTitle: true,
                 actions: [
@@ -100,8 +103,8 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
               ),
               Container(
                 margin: const EdgeInsets.only(left: 30),
-                padding:
-                    const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 5, bottom: 5),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.0)),
@@ -148,5 +151,3 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     );
   }
 }
-
-

@@ -1,4 +1,5 @@
 import 'package:feedapp/ui/screens/login_screen.dart';
+import 'package:feedapp/ui/screens/sell%20info%20screen/client_list_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/appbar_logo.dart';
@@ -23,7 +24,7 @@ class _DashboardState extends State<Dashboard> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: AppBarLogo(height: height),
-        title: Text("Dashboard"),
+        title: const Text("Dashboard"),
         centerTitle: true,
       ),
       body: Padding(
@@ -54,7 +55,9 @@ class _DashboardState extends State<Dashboard> {
               height: height * 0.08,
             ),
             DashboardButton(text: 'ক্রেতার তথ্য', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+            //  Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const ClientListScreen()));
+
             },),
           ],
         ),

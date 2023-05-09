@@ -2,10 +2,9 @@ import 'package:feedapp/ui/screens/price_change_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/sell_info_due_check_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/appbar_logo.dart';
 import '../widgets/dashboard_button.dart';
-import 'login_screen.dart';
+import 'dashboard.dart';
 
 class AdminstratorScreen extends StatefulWidget {
   const AdminstratorScreen({Key? key}) : super(key: key);
@@ -56,7 +55,10 @@ class _AdminstratorScreenState extends State<AdminstratorScreen> {
             SizedBox(
               height: height * 0.4,
             ),
-            AppElevatedButton(text: "Back to Home", textColor: Colors.white, buttonColor: Colors.blue, onTap: (){})
+            AppElevatedButton(text: "Back to Home", textColor: Colors.white, buttonColor: Colors.blue, onTap: (){
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const Dashboard()), (route) => false);
+
+            }),
 
           ],
         ),

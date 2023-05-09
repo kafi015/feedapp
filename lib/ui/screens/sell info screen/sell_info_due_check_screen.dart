@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/appbar_home_icon_button.dart';
+
 class SellInfoDueCheckScreen extends StatefulWidget {
   const SellInfoDueCheckScreen({Key? key}) : super(key: key);
 
@@ -8,7 +10,6 @@ class SellInfoDueCheckScreen extends StatefulWidget {
 }
 
 class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
-
   DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -30,79 +31,87 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Icon(Icons.home),
-        title: Text("Sell Info"),
+        leading: const AppBarHomeIconButton(),
+        title: const Text("Sell Info"),
         centerTitle: true,
         actions: [
           InkWell(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back_ios),
           ),
         ],
       ),
-
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: ElevatedButton.icon(
-              icon: Icon(Icons.calendar_month,color: Colors.blue,),
+              icon: const Icon(
+                Icons.calendar_month,
+                color: Colors.blue,
+              ),
               label: Padding(
-                padding: const EdgeInsets.only(top: 10.0,bottom: 10,right: 30,left: 20),
-                child: Text("${selectedDate.toLocal()}".split(' ')[0],
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.grey
-                  ),
+                padding: const EdgeInsets.only(
+                    top: 10.0, bottom: 10, right: 30, left: 20),
+                child: Text(
+                  "${selectedDate.toLocal()}".split(' ')[0],
+                  style: const TextStyle(fontSize: 24, color: Colors.grey),
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                side: BorderSide(width: 1,color: Colors.blue),
+                side: const BorderSide(width: 1, color: Colors.blue),
                 backgroundColor: Colors.white,
-
               ),
-              onPressed: ()=> _selectDate(context),
-
+              onPressed: () => _selectDate(context),
             ),
           ),
-
           Expanded(
             child: ListView.builder(
                 itemCount: 100,
-                itemBuilder: (context,index){
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
-                child: InkWell(
-                  onTap: (){},
-                  child: Card(
-
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(34.0),
-                      side: BorderSide(color: Colors.blue,width: 1),
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Customer's Name",style: TextStyle(fontSize: 24,color: Colors.blue),),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 20),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(34.0),
+                          side: const BorderSide(color: Colors.blue, width: 1),
                         ),
-                        Divider(thickness: 1,color: Colors.blue,),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("Total due",style: TextStyle(fontSize: 24,color: Colors.blue),),
+                        child: Column(
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                "Customer's Name",
+                                style:
+                                    TextStyle(fontSize: 24, color: Colors.blue),
+                              ),
+                            ),
+                            Divider(
+                              thickness: 1,
+                              color: Colors.blue,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                "Total due",
+                                style:
+                                    TextStyle(fontSize: 24, color: Colors.blue),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              );
-            }),
+                  );
+                }),
           )
         ],
       ),
-
     );
   }
 }

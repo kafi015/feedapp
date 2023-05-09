@@ -3,6 +3,8 @@ import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../widgets/appbar_home_icon_button.dart';
+
 class VarificationScreen extends StatefulWidget {
   const VarificationScreen({Key? key}) : super(key: key);
 
@@ -21,12 +23,12 @@ class _VarificationScreenState extends State<VarificationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: const Icon(Icons.home),
+        leading: const AppBarHomeIconButton(),
         title: const Text("Verification"),
         centerTitle: true,
-        actions:  [
+        actions: [
           InkWell(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back_ios),
@@ -34,49 +36,50 @@ class _VarificationScreenState extends State<VarificationScreen> {
         ],
       ),
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: width * .05),
+        padding: EdgeInsets.symmetric(horizontal: width * .05),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-               SizedBox(
-                height: height* .04,
+              SizedBox(
+                height: height * .04,
               ),
               Image.asset(
                 "assets/varification.png",
-                scale: height* .002,
+                scale: height * .002,
               ),
-               SizedBox(
-                height: height* .06,
+              SizedBox(
+                height: height * .06,
               ),
-               Text(
+              Text(
                 "OTP VERIFICATION REGISTER",
                 style: TextStyle(
-                    fontSize: height* .03,
+                    fontSize: height * .03,
                     color: Colors.black,
                     fontWeight: FontWeight.w600),
               ),
-               SizedBox(
-                height: height* .04,
+              SizedBox(
+                height: height * .04,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
+                children: [
                   Text(
                     "Enter the OTP sent to - ",
-                    style: TextStyle(fontSize: height* .023),
+                    style: TextStyle(fontSize: height * .023),
                   ),
                   Text(
                     " +8801234567890",
-                    style: TextStyle(color: Colors.blue, fontSize: height* .023),
+                    style:
+                        TextStyle(color: Colors.blue, fontSize: height * .023),
                   ),
                 ],
               ),
-               SizedBox(
-                height: height* .04,
+              SizedBox(
+                height: height * .04,
               ),
               Padding(
-                padding:  EdgeInsets.symmetric(horizontal: width * .13),
+                padding: EdgeInsets.symmetric(horizontal: width * .13),
                 child: PinCodeTextField(
                   cursorColor: Colors.blue,
                   length: 4,
@@ -109,36 +112,37 @@ class _VarificationScreenState extends State<VarificationScreen> {
                   appContext: context,
                 ),
               ),
-               SizedBox(
-                height: height* .03,
+              SizedBox(
+                height: height * .03,
               ),
-               Text(
+              Text(
                 "00:120 Sec",
                 style: TextStyle(
-                  fontSize: height* .022,
+                  fontSize: height * .022,
                   color: Colors.red,
                 ),
               ),
-               SizedBox(
-                height: height* .04,
+              SizedBox(
+                height: height * .04,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   Text(
+                  Text(
                     "Don’t receive code ? ",
-                    style: TextStyle(fontSize: height* .023),
+                    style: TextStyle(fontSize: height * .023),
                   ),
                   InkWell(
                       onTap: () {},
-                      child:  Text(
+                      child: Text(
                         "Re-send",
-                        style: TextStyle(color: Colors.blue, fontSize: height* .023),
+                        style: TextStyle(
+                            color: Colors.blue, fontSize: height * .023),
                       )),
                 ],
               ),
-               SizedBox(
-                height: height* .1,
+              SizedBox(
+                height: height * .1,
               ),
               AppElevatedButton(
                 text: "Submit",

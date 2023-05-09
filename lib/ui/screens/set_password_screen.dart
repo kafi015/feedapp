@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/app_elevatedbutton.dart';
 import '../widgets/app_textformfield.dart';
+import '../widgets/appbar_home_icon_button.dart';
 
 class SetPasswordScreen extends StatefulWidget {
   const SetPasswordScreen({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: const Icon(Icons.home),
+        leading: const AppBarHomeIconButton(),
         title: const Text("Verification"),
         centerTitle: true,
         actions:  [

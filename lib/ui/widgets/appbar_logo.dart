@@ -14,7 +14,7 @@ class AppBarLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Dashboard()));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const Dashboard()), (route) => false);
       },
       child: Image.asset(
         "assets/logo.png",

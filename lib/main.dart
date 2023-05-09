@@ -5,6 +5,7 @@ import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/screens/pass_change_message.dart';
 import 'package:feedapp/ui/screens/price_change_screen.dart';
 import 'package:feedapp/ui/screens/register_screen.dart';
+import 'package:feedapp/ui/screens/sell%20info%20screen/client_list_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/sell_info_due_check_screen.dart';
 import 'package:feedapp/ui/screens/splash_screen.dart';
 import 'package:feedapp/ui/screens/varification_screen.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-     // home: SellInfoDueCheckScreen(),
+      //home: PriceChangeScreen(),
       home: SplashScreen(),
     );
   }
