@@ -1,4 +1,6 @@
+import 'package:feedapp/ui/screens/adminstrator_screen.dart';
 import 'package:feedapp/ui/screens/login_screen.dart';
+import 'package:feedapp/ui/screens/price_change_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/client_list_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/enter_sell_info.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +8,14 @@ import 'package:flutter/material.dart';
 import '../widgets/appbar_logo.dart';
 import '../widgets/dashboard_button.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+class AdminDashboard extends StatefulWidget {
+  const AdminDashboard({Key? key}) : super(key: key);
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<AdminDashboard> createState() => _AdminDashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _AdminDashboardState extends State<AdminDashboard> {
   late double height;
   late double width;
 
@@ -25,8 +27,13 @@ class _DashboardState extends State<Dashboard> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: AppBarLogo(height: height),
-        title: const Text("Dashboard"),
+        title: const Text("Admin Dashboard"),
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const LogInScreen()), (route) => false);
+          }, icon: const Icon(Icons.logout)),
+        ],
       ),
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: width * 0.05),
@@ -36,13 +43,13 @@ class _DashboardState extends State<Dashboard> {
               height: height * 0.08,
             ),
             DashboardButton(text: 'Adminstrator', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const AdminstratorScreen()));
             },),
             SizedBox(
               height: height * 0.08,
             ),
             DashboardButton(text: 'দাম পরিবর্তন', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const PriceChangeScreen()));
 
             },),
             SizedBox(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../screens/dashboard.dart';
-
 class AppBarLogo extends StatelessWidget {
   const AppBarLogo({
     Key? key,
@@ -14,7 +12,6 @@ class AppBarLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const Dashboard()), (route) => false);
       },
       child: Image.asset(
         "assets/logo.png",

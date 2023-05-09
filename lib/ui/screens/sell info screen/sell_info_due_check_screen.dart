@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/appbar_home_icon_button.dart';
+import 'customer_info_update_screen.dart';
 
 class SellInfoDueCheckScreen extends StatefulWidget {
   const SellInfoDueCheckScreen({Key? key}) : super(key: key);
@@ -75,7 +76,13 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 20),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CustomerInfoUpdateScreen()));
+                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(34.0),

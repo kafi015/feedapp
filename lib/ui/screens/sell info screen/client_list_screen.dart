@@ -2,6 +2,7 @@ import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/appbar_logo.dart';
+import 'customer_info_update_screen.dart';
 
 class ClientListScreen extends StatefulWidget {
   const ClientListScreen({Key? key}) : super(key: key);
@@ -53,7 +54,13 @@ class _ClientListScreenState extends State<ClientListScreen> {
                       return Padding(
                         padding: EdgeInsets.only(bottom: height * 0.03),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CustomerInfoUpdateScreen()));
+                          },
                           child: Card(
                             elevation: 10,
                             shape: RoundedRectangleBorder(

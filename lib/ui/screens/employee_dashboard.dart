@@ -1,19 +1,20 @@
 import 'package:feedapp/ui/screens/price_change_screen.dart';
-import 'package:feedapp/ui/screens/sell%20info%20screen/sell_info_due_check_screen.dart';
-import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
+import 'package:feedapp/ui/screens/sell%20info%20screen/client_list_screen.dart';
+import 'package:feedapp/ui/screens/sell%20info%20screen/enter_sell_info.dart';
 import 'package:flutter/material.dart';
+
 import '../widgets/appbar_logo.dart';
 import '../widgets/dashboard_button.dart';
-import 'admin_dashboard.dart';
+import 'login_screen.dart';
 
-class AdminstratorScreen extends StatefulWidget {
-  const AdminstratorScreen({Key? key}) : super(key: key);
+class EmployeeDashboard extends StatefulWidget {
+  const EmployeeDashboard({Key? key}) : super(key: key);
 
   @override
-  State<AdminstratorScreen> createState() => _AdminstratorScreenState();
+  State<EmployeeDashboard> createState() => _EmployeeDashboardState();
 }
 
-class _AdminstratorScreenState extends State<AdminstratorScreen> {
+class _EmployeeDashboardState extends State<EmployeeDashboard> {
   late double height;
   late double width;
   @override
@@ -24,21 +25,19 @@ class _AdminstratorScreenState extends State<AdminstratorScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: AppBarLogo(height: height),
-        title: const Text("Adminstrator"),
+        title: const Text("Employee Dashboard"),
         centerTitle: true,
         actions: [
-          InkWell(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back_ios),
-          ),
+          IconButton(onPressed: (){
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const LogInScreen()), (route) => false);
+          }, icon: const Icon(Icons.logout)),
         ],
       ),
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: width * 0.05),
         child: Column(
           children: [
+
             SizedBox(
               height: height * 0.08,
             ),
@@ -50,16 +49,17 @@ class _AdminstratorScreenState extends State<AdminstratorScreen> {
               height: height * 0.08,
             ),
             DashboardButton(text: 'বেচা-কেনার তথ্য', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const SellInfoDueCheckScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnterSellInfoScreen()));
+
             },),
             SizedBox(
-              height: height * 0.4,
+              height: height * 0.08,
             ),
-            AppElevatedButton(text: "Back to Home", textColor: Colors.white, buttonColor: Colors.blue, onTap: (){
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const AdminDashboard()), (route) => false);
+            DashboardButton(text: 'ক্রেতার তথ্য', onTap: () {
+              //  Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const ClientListScreen()));
 
-            }),
-
+            },),
           ],
         ),
       ),

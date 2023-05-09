@@ -1,4 +1,4 @@
-import 'package:feedapp/ui/screens/dashboard.dart';
+import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: AppElevatedButton(text: "Cool, let's go", textColor: Colors.blue, buttonColor: Colors.white, onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const Dashboard()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
               }),
             ),
             SizedBox(height: height * 0.03,),
