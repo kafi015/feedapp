@@ -1,5 +1,6 @@
 import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/client_list_screen.dart';
+import 'package:feedapp/ui/screens/sell%20info%20screen/enter_sell_info.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/appbar_logo.dart';
@@ -48,7 +49,7 @@ class _DashboardState extends State<Dashboard> {
               height: height * 0.08,
             ),
             DashboardButton(text: 'বেচা-কেনার তথ্য', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnterSellInfoScreen()));
 
             },),
             SizedBox(
