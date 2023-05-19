@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 import 'package:feedapp/Data/models/product_indo_model.dart';
 import 'package:feedapp/Data/network_utils.dart';
@@ -29,7 +30,6 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     // TODO: implement initState
     super.initState();
     getPrizeInfo();
-
   }
 
   Future<void> getPrizeInfo() async {
@@ -47,16 +47,42 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     setState(() {});
   }
 
-  @override
+  Future<Data> updatePrice(String price,String sId) async {
+    final http.Response response = await http.patch(
+      Uri.parse('${Urls.baseUrl}/updateProduct/$sId'),
+      headers: <String, String>{
+        'Content-type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'price': price,
+      }),
+    );
+
+    if(response.statusCode == 200)
+      {
+        priceChangeETController.clear();
+        Navigator.of(context).pop();
+
+        showSnackBarMessage(context, "Price Updated Successfully");
+        getPrizeInfo();
+        return Data.fromJson(json.decode(response.body));
+      }
+    else
+      {
+        Navigator.of(context).pop();
+        showSnackBarMessage(context, "Failed", Colors.red);
+        throw Exception('Failed to update.');
+      }
+
+  }
+
+
+
+
+    @override
   Widget build(BuildContext context) {
-    height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
 
     myAlertDialog(context, String productId) {
       return showDialog(
@@ -82,27 +108,12 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                         backgroundColor: Colors.blue,
                       ),
                       onPressed: () {
-
-                        var url = Uri.parse('https://mobileappbackend.onrender.com/updateProduct/$productId');
-
-
-                        final http.Response response = http.put(url) as http.Response;
-
-                        if(response.statusCode == 200)
-                          {
-                            print("successfully");
-                          }
-                        else
-                          {
-                            print("failed");
-                          }
-
-                        print(response);
-                        if (response != null) {
-                          getPrizeInfo();
-                        }
-                        priceChangeETController.clear();
-                        Navigator.of(context).pop();
+                        setState(() {
+                          updatePrice(priceChangeETController.text, productId);
+                          // priceChangeETController.clear();
+                          // Navigator.pop(context);
+                          // getPrizeInfo();
+                        });
                       },
                       child: const Text("Done")),
                 ),
@@ -178,44 +189,48 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: inProgress
             ? const Center(
-          child: CircularProgressIndicator(),
-        )
+                child: CircularProgressIndicator(),
+              )
             : ListView.builder(
-          itemCount: _productInfoModel.data!.length,
-          itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.only(top: 10, bottom: 10),
-              elevation: 10,
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(34.0),
-                side: const BorderSide(width: 1, color: Colors.blue),
-              ),
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    _productInfoModel.data?[index].name ?? "Unknown",
-                    style: const TextStyle(color: Colors.blue),
-                  ),
-                ),
-                trailing: InkWell(
-                    onTap: () {
-                      myAlertDialog(context,
-                          _productInfoModel.data?[index].sId ?? '');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(
-                        _productInfoModel.data?[index].price ?? "00",
-                        style: const TextStyle(color: Colors.blue),
+                itemCount: _productInfoModel.data!.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: const EdgeInsets.only(top: 10, bottom: 10),
+                    elevation: 10,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(34.0),
+                      side: const BorderSide(width: 1, color: Colors.blue),
+                    ),
+                    child: ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          _productInfoModel.data?[index].name ?? "Unknown",
+                          style: const TextStyle(color: Colors.blue),
+                        ),
                       ),
-                    )),
+                      trailing: InkWell(
+                          onTap: () {
+                            setState(() {
+                              priceChangeETController.text = _productInfoModel.data?[index].price ?? '';
+                              myAlertDialog(context,
+                                  _productInfoModel.data?[index].sId ?? '');
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(
+                              _productInfoModel.data?[index].price ?? "00",
+                              style: const TextStyle(color: Colors.blue),
+                            ),
+                          )),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }
 }
+
