@@ -1,7 +1,12 @@
+
+import 'package:feedapp/Data/models/product_indo_model.dart';
+import 'package:feedapp/Data/network_utils.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
-
+import '../../Data/urls.dart';
+import '../utils/snakbar_message.dart';
 import '../widgets/appbar_home_icon_button.dart';
+import 'package:http/http.dart' as http;
 
 class PriceChangeScreen extends StatefulWidget {
   const PriceChangeScreen({Key? key}) : super(key: key);
@@ -14,42 +19,94 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
   late double height;
   late double width;
 
+  TextEditingController priceChangeETController = TextEditingController();
+
+  ProductInfoModel _productInfoModel = ProductInfoModel();
+  bool inProgress = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPrizeInfo();
+
+  }
+
+  Future<void> getPrizeInfo() async {
+    inProgress = true;
+    setState(() {});
+
+    final respone = await NetworkUtils().getMethod(Urls.productInfoUrl);
+    if (respone != null) {
+      _productInfoModel = ProductInfoModel.fromJson(respone);
+    } else {
+      showSnackBarMessage(context, "Unable to fetch data");
+    }
+
+    inProgress = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
+    height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    width = MediaQuery
+        .of(context)
+        .size
+        .width;
 
-    myAlertDialog(context) {
+    myAlertDialog(context, String productId) {
       return showDialog(
           context: context,
           builder: (BuildContext context) {
-            return Expanded(
-              child: AlertDialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(34.0),
-                    side: const BorderSide(width: 3, color: Colors.blue)),
-                title: const Text(
-                  "মূল্য পরিবর্তন",
-                  style: TextStyle(color: Colors.blue),
-                ),
-                content: AppTextFormField(
-                  controller: TextEditingController(),
-                  hintText: "",
-                ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text("Done")),
-                  ),
-                ],
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(34.0),
+                  side: const BorderSide(width: 3, color: Colors.blue)),
+              title: Text(
+                "মূল্য পরিবর্তন ",
+                style: TextStyle(color: Colors.blue),
               ),
+              content: AppTextFormField(
+                controller: priceChangeETController,
+                hintText: "",
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                      ),
+                      onPressed: () {
+
+                        var url = Uri.parse('https://mobileappbackend.onrender.com/updateProduct/$productId');
+
+
+                        final http.Response response = http.put(url) as http.Response;
+
+                        if(response.statusCode == 200)
+                          {
+                            print("successfully");
+                          }
+                        else
+                          {
+                            print("failed");
+                          }
+
+                        print(response);
+                        if (response != null) {
+                          getPrizeInfo();
+                        }
+                        priceChangeETController.clear();
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("Done")),
+                ),
+              ],
             );
           });
     }
@@ -119,11 +176,15 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: ListView.builder(
-          itemCount: 100,
+        child: inProgress
+            ? const Center(
+          child: CircularProgressIndicator(),
+        )
+            : ListView.builder(
+          itemCount: _productInfoModel.data!.length,
           itemBuilder: (context, index) {
             return Card(
-              margin: const EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 10, bottom: 10),
               elevation: 10,
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -131,17 +192,24 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                 side: const BorderSide(width: 1, color: Colors.blue),
               ),
               child: ListTile(
-                title: const Text(
-                  "প্রোটিন-এ সি আই",
-                  style: TextStyle(color: Colors.blue),
+                title: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    _productInfoModel.data?[index].name ?? "Unknown",
+                    style: const TextStyle(color: Colors.blue),
+                  ),
                 ),
                 trailing: InkWell(
                     onTap: () {
-                      myAlertDialog(context);
+                      myAlertDialog(context,
+                          _productInfoModel.data?[index].sId ?? '');
                     },
-                    child: const Text(
-                      "০০০ টাকা",
-                      style: TextStyle(color: Colors.blue),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        _productInfoModel.data?[index].price ?? "00",
+                        style: const TextStyle(color: Colors.blue),
+                      ),
                     )),
               ),
             );
