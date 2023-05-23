@@ -11,6 +11,6 @@ class AppBarHomeIconButton extends StatelessWidget {
     return InkWell(
         onTap:(){
         },
-        child: Icon(Icons.home,size: 28,));
+        child: const Icon(Icons.home,size: 28,));
   }
 }

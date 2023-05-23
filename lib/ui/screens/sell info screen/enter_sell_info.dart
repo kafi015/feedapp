@@ -16,6 +16,30 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
   late double height;
   late double width;
 
+  late String date;
+  TextEditingController cutomerNameEtController = TextEditingController();
+  TextEditingController totalAmountEtController = TextEditingController();
+  TextEditingController paidAmountEtController = TextEditingController();
+  TextEditingController dueAmountEtController = TextEditingController();
+  TextEditingController noteEtController = TextEditingController();
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2020, 8),
+        lastDate: DateTime(2101));
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        date = "${selectedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -55,8 +79,29 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     textEnglish: 'Date',
                     textBangla: 'দিন',
                   ),
-                  AppTextFormField(
-                      controller: TextEditingController(), hintText: "Enter date"),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.calendar_month,
+                        color: Colors.blue,
+                      ),
+                      label: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 10.0, bottom: 10, right: 50, left: 50),
+                        child: Text(
+                          "${selectedDate.toLocal()}".split(' ')[0],
+                          style:
+                              const TextStyle(fontSize: 24, color: Colors.grey),
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        side: const BorderSide(width: 1, color: Colors.blue),
+                        backgroundColor: Colors.white,
+                      ),
+                      onPressed: () => _selectDate(context),
+                    ),
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -67,7 +112,8 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     textBangla: 'ক্রেতার নাম',
                   ),
                   AppTextFormField(
-                      controller: TextEditingController(), hintText: "Enter name"),
+                      controller: cutomerNameEtController,
+                      hintText: "Enter name"),
                   const SizedBox(
                     height: 10,
                   ),
@@ -78,7 +124,7 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     textBangla: 'মোট মূল্য',
                   ),
                   AppTextFormField(
-                      controller: TextEditingController(),
+                      controller: totalAmountEtController,
                       hintText: "Enter amount"),
                   const SizedBox(
                     height: 10,
@@ -90,7 +136,7 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     textBangla: 'পরিশোধ করেছেন',
                   ),
                   AppTextFormField(
-                      controller: TextEditingController(),
+                      controller: paidAmountEtController,
                       hintText: "Enter paid amount"),
                   const SizedBox(
                     height: 10,
@@ -102,7 +148,7 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     textBangla: 'বাকি রয়েছে',
                   ),
                   AppTextFormField(
-                      controller: TextEditingController(),
+                      controller: dueAmountEtController,
                       hintText: "Enter due amount"),
                   const SizedBox(
                     height: 10,
@@ -114,17 +160,25 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     textBangla: 'কবে পরিশোধ করবেন?',
                   ),
                   AppTextFormField(
-                      controller: TextEditingController(), hintText: "Enter note"),
+                      controller: noteEtController, hintText: "Enter note"),
                   const SizedBox(
                     height: 10,
                   ),
                 ],
               ),
             ),
-            SizedBox(height: height *0.05,),
+            SizedBox(
+              height: height * 0.05,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: AppElevatedButton(text: "Submit", textColor: Colors.white, buttonColor: Colors.blue, onTap: (){}),
+              child: AppElevatedButton(
+                  text: "Submit",
+                  textColor: Colors.white,
+                  buttonColor: Colors.blue,
+                  onTap: () {
+
+                  }),
             ),
           ],
         ),

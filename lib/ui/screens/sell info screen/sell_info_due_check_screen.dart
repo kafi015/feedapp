@@ -81,15 +81,15 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const CustomerInfoUpdateScreen()));
+                                     CustomerInfoUpdateScreen(customerId: '',)));
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(34.0),
                           side: const BorderSide(color: Colors.blue, width: 1),
                         ),
-                        child: Column(
-                          children: const [
+                        child: const Column(
+                          children: [
                             Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Text(

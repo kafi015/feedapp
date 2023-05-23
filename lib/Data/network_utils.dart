@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:http/http.dart' as http;
 
+import 'models/product_info_model.dart';
+
 class NetworkUtils {
   Future<dynamic> getMethod(String url) async {
     try {
@@ -10,12 +12,12 @@ class NetworkUtils {
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
       } else if (response.statusCode == 401) {
-        print("Unauthorized");
+        //print("Unauthorized");
       } else {
-        print("Something went wrong ${response.statusCode}");
+        //print("Something went wrong ${response.statusCode}");
       }
     } catch (e) {
-      print(e);
+      //print(e);
     }
   }
 
@@ -31,10 +33,29 @@ class NetworkUtils {
           onunauthorized();
         }
       } else {
-        print("Something went wrong");
+        //print("Something went wrong");
       }
     } catch (e) {
-      print(e);
+      //print(e);
     }
   }
+
+  Future<dynamic> updateMethode(String url, {Map<String, String>? body }) async {
+    try {
+      final http.Response response = await http.patch(Uri.parse(url),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(body));
+      if (response.statusCode == 200) {
+        return Data.fromJson(json.decode(response.body));
+      } else if (response.statusCode == 401) {
+        // print("unauthorize");
+      } else {
+        //print("Something went wrong");
+      }
+    } catch (e) {
+      //print(e);
+    }
+  }
+
 }
+

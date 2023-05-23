@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-TextStyle subtitleStyle = TextStyle(
+TextStyle subtitleStyle = const TextStyle(
 
 );

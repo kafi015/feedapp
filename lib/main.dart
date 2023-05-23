@@ -1,4 +1,3 @@
-import 'package:feedapp/ui/screens/price_change_screen.dart';
 import 'package:feedapp/ui/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: PriceChangeScreen(),
-      //home: SplashScreen(),
+     // home: PriceChangeScreen(),
+      home: SplashScreen(),
     );
   }
 }

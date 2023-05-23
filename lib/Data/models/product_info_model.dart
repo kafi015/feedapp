@@ -9,11 +9,9 @@ class ProductInfoModel {
 
   ProductInfoModel.fromJson(List<dynamic> json) {
 
-    if (json != null) {
-      data = <Data>[];
-      json.forEach((v) {
-        data!.add(Data.fromJson(v));
-      });
+    data = <Data>[];
+    for (var v in json) {
+      data!.add(Data.fromJson(v));
     }
   }
 
@@ -44,9 +42,9 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['price'] = this.price;
+    data['_id'] = sId;
+    data['name'] = name;
+    data['price'] = price;
     return data;
   }
 }

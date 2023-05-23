@@ -1,13 +1,11 @@
-import 'dart:convert';
 
-import 'package:feedapp/Data/models/product_indo_model.dart';
+import 'package:feedapp/Data/models/product_info_model.dart';
 import 'package:feedapp/Data/network_utils.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
 import '../../Data/urls.dart';
 import '../utils/snakbar_message.dart';
 import '../widgets/appbar_home_icon_button.dart';
-import 'package:http/http.dart' as http;
 
 class PriceChangeScreen extends StatefulWidget {
   const PriceChangeScreen({Key? key}) : super(key: key);
@@ -36,50 +34,34 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     inProgress = true;
     setState(() {});
 
-    final respone = await NetworkUtils().getMethod(Urls.productInfoUrl);
-    if (respone != null) {
-      _productInfoModel = ProductInfoModel.fromJson(respone);
-    } else {
-      showSnackBarMessage(context, "Unable to fetch data");
+    try {
+      final respone = await NetworkUtils().getMethod(Urls.productInfoUrl);
+      if (respone != null) {
+        _productInfoModel = ProductInfoModel.fromJson(respone);
+      } else {
+        showSnackBarMessage(context, "Unable to fetch data");
+      }
+    } catch (e) {
+      //print(e);
     }
 
     inProgress = false;
     setState(() {});
   }
 
-  Future<Data> updatePrice(String price,String sId) async {
-    final http.Response response = await http.patch(
-      Uri.parse('${Urls.baseUrl}/updateProduct/$sId'),
-      headers: <String, String>{
-        'Content-type': 'application/json',
-      },
-      body: jsonEncode(<String, String>{
-        'price': price,
-      }),
-    );
+  Future<void> updatePrice(String price, String sId) async {
+    NetworkUtils()
+        .updateMethode('${Urls.baseUrl}/updateProduct/$sId', body: {
+      'price': price,
+    });
 
-    if(response.statusCode == 200)
-      {
-        priceChangeETController.clear();
-        Navigator.of(context).pop();
-
-        showSnackBarMessage(context, "Price Updated Successfully");
-        getPrizeInfo();
-        return Data.fromJson(json.decode(response.body));
-      }
-    else
-      {
-        Navigator.of(context).pop();
-        showSnackBarMessage(context, "Failed", Colors.red);
-        throw Exception('Failed to update.');
-      }
-
+    priceChangeETController.clear();
+    Navigator.of(context).pop();
+    showSnackBarMessage(context, "Price Updated Successfully");
+    getPrizeInfo();
   }
 
-
-
-
-    @override
+  @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
@@ -92,7 +74,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(34.0),
                   side: const BorderSide(width: 3, color: Colors.blue)),
-              title: Text(
+              title: const Text(
                 "মূল্য পরিবর্তন ",
                 style: TextStyle(color: Colors.blue),
               ),
@@ -213,7 +195,8 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                       trailing: InkWell(
                           onTap: () {
                             setState(() {
-                              priceChangeETController.text = _productInfoModel.data?[index].price ?? '';
+                              priceChangeETController.text =
+                                  _productInfoModel.data?[index].price ?? '';
                               myAlertDialog(context,
                                   _productInfoModel.data?[index].sId ?? '');
                             });
@@ -233,4 +216,3 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     );
   }
 }
-
