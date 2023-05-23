@@ -35,9 +35,13 @@ class _ClientListScreenState extends State<ClientListScreen> {
 
     try {
       final respone = await NetworkUtils().getMethod(Urls.customerInfoUrl);
+      //print(respone);
       if (respone != null) {
         _customerInfoModel = CustomerInfoModel.fromJson(respone);
       } else {
+
+        List<dynamic> list = [];
+        _customerInfoModel = CustomerInfoModel.fromJson(list);
         showSnackBarMessage(context, "Unable to fetch data");
       }
     } catch (e) {
@@ -109,8 +113,7 @@ class _ClientListScreenState extends State<ClientListScreen> {
                                   padding: const EdgeInsets.all(12.0),
                                   child: Center(
                                       child: Text(
-                                    '${_customerInfoModel.data?[index].name}' ??
-                                        'Unknown',
+                                    '${_customerInfoModel.data?[index].name}',
                                     style: const TextStyle(
                                         fontSize: 24, color: Colors.blue),
                                   )),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+import '../../../Data/models/customer_info_model.dart';
+import '../../../Data/network_utils.dart';
+import '../../../Data/urls.dart';
+import '../../utils/snakbar_message.dart';
 import '../../widgets/appbar_home_icon_button.dart';
 import 'customer_info_update_screen.dart';
 
@@ -23,8 +26,42 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
+        getCustomerInfo();
       });
     }
+  }
+  bool inProgress = false;
+  String dateCompare = '';
+  CustomerInfoModel _customerInfoModel = CustomerInfoModel();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCustomerInfo();
+  }
+
+  Future<void> getCustomerInfo() async {
+    inProgress = true;
+    setState(() {});
+
+    try {
+      final respone = await NetworkUtils().getMethod(Urls.customerInfoUrl);
+      //print(respone);
+      if (respone != null) {
+
+        _customerInfoModel = CustomerInfoModel.fromJson(respone);
+        dateCompare = '${selectedDate.toLocal()}'.split(' ').first;
+
+      } else {
+        showSnackBarMessage(context, "Unable to fetch data");
+      }
+    } catch (e) {
+      //print(e);
+    }
+
+    inProgress = false;
+    setState(() {});
   }
 
   @override
@@ -69,52 +106,57 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-                itemCount: 100,
+            child: inProgress? const Center(child: CircularProgressIndicator()) : ListView.builder(
+                itemCount: _customerInfoModel.data?.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 20),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                     CustomerInfoUpdateScreen(customerId: '',)));
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(34.0),
-                          side: const BorderSide(color: Colors.blue, width: 1),
+                  if(_customerInfoModel.data?[index].date == dateCompare)
+                    {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 20),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CustomerInfoUpdateScreen(customerId: '${_customerInfoModel.data?[index].sId}',)));
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(34.0),
+                              side: const BorderSide(color: Colors.blue, width: 1),
+                            ),
+                            child:  Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    _customerInfoModel.data![index].name ?? 'Unknown',
+                                    style:
+                                    const TextStyle(fontSize: 24, color: Colors.blue),
+                                  ),
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                  color: Colors.blue,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    _customerInfoModel.data?[index].due ?? 'Unknown',
+                                    style:
+                                    const TextStyle(fontSize: 24, color: Colors.blue),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        child: const Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                "Customer's Name",
-                                style:
-                                    TextStyle(fontSize: 24, color: Colors.blue),
-                              ),
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Colors.blue,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                "Total due",
-                                style:
-                                    TextStyle(fontSize: 24, color: Colors.blue),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                      );
+                    }
+                  return Container();
+
                 }),
           )
         ],

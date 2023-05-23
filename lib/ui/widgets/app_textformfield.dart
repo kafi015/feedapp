@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 class AppTextFormField extends StatelessWidget {
   const AppTextFormField({
-    Key? key, this.obscure, required this.controller, required this.hintText,
+    Key? key, this.obscure, required this.controller, required this.hintText, this.validator,
   }) : super(key: key);
 
   final bool? obscure;
   final TextEditingController controller;
   final String hintText;
+  final Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,12 @@ class AppTextFormField extends StatelessWidget {
       controller: controller,
       obscureText: obscure ?? false,
       obscuringCharacter: '*',
+      validator: (value) {
+        if (validator != null) {
+          return validator!(value);
+        }
+        return null;
+      },
 
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
