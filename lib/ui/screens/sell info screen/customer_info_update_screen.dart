@@ -28,14 +28,17 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
   late double width;
   CustomerInfoModel _customerInfoModel = CustomerInfoModel();
 
-   String date = '';
+
   TextEditingController cutomerNameEtController = TextEditingController();
   TextEditingController totalAmountEtController = TextEditingController();
   TextEditingController paidAmountEtController = TextEditingController();
   TextEditingController dueAmountEtController = TextEditingController();
   TextEditingController noteEtController = TextEditingController();
+  TextEditingController dateEtController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
+  String date = '';
+  String time = '';
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -47,7 +50,8 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        date = "${selectedDate.toLocal()}".split(' ')[0];
+       // dateEtController.text = "${selectedDate.toLocal()}".split(' ')[0];
+        dateEtController.text = selectedDate.toString();
       });
     }
   }
@@ -87,12 +91,24 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
         _customerInfoModel.data?.first.due ?? 'Unknown';
     noteEtController.text = _customerInfoModel.data?.first.note ?? 'Unknown';
 
+    time = '${DateTime.now().toLocal()}'.split(' ')[1];
+    dateEtController.text = "${_customerInfoModel.data?.first.date }";
+    setState(() {
+
+    });
+
+    print('Date ${dateEtController.text}');
+    print('Time $time');
+    print(DateTime.now());
+
+    print('SelectDate $selectedDate');
+
   }
 
   Future<void> updatePrice(String date,String total, String paid, String due, String note) async {
     NetworkUtils().updateMethode(Urls.updateCustomerInfo(customerId), body: {
 
-     // "date": date,
+      "date": date,
       "total": total,
       "paid": paid,
       "due": due,
@@ -152,7 +168,7 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
                         padding: const EdgeInsets.only(
                             top: 10.0, bottom: 10, right: 50, left: 50),
                         child: Text(
-                          "${selectedDate.toLocal()}".split(' ')[0],
+                          dateEtController.text.split(' ')[0],
                           style:
                               const TextStyle(fontSize: 24, color: Colors.grey),
                         ),
@@ -239,7 +255,7 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
                   textColor: Colors.white,
                   buttonColor: Colors.blue,
                   onTap: () {
-                    updatePrice(date, totalAmountEtController.text, paidAmountEtController.text, dueAmountEtController.text, noteEtController.text);
+                    updatePrice(dateEtController.text.split(' ')[0], totalAmountEtController.text, paidAmountEtController.text, dueAmountEtController.text, noteEtController.text);
                   }),
             ),
           ],

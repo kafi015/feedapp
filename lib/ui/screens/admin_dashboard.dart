@@ -37,37 +37,39 @@ class _AdminDashboardState extends State<AdminDashboard> {
       ),
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: width * 0.05),
-        child: Column(
-          children: [
-            SizedBox(
-              height: height * 0.08,
-            ),
-            DashboardButton(text: 'Adminstrator', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const AdminstratorScreen()));
-            },),
-            SizedBox(
-              height: height * 0.08,
-            ),
-            DashboardButton(text: 'দাম পরিবর্তন', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const PriceChangeScreen()));
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: height * 0.08,
+              ),
+              DashboardButton(text: 'Adminstrator', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const AdminstratorScreen()));
+              },),
+              SizedBox(
+                height: height * 0.08,
+              ),
+              DashboardButton(text: 'দাম পরিবর্তন', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const PriceChangeScreen()));
 
-            },),
-            SizedBox(
-              height: height * 0.08,
-            ),
-            DashboardButton(text: 'বেচা-কেনার তথ্য', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnterSellInfoScreen()));
+              },),
+              SizedBox(
+                height: height * 0.08,
+              ),
+              DashboardButton(text: 'বেচা-কেনার তথ্য', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnterSellInfoScreen()));
 
-            },),
-            SizedBox(
-              height: height * 0.08,
-            ),
-            DashboardButton(text: 'ক্রেতার তথ্য', onTap: () {
-            //  Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const ClientListScreen()));
+              },),
+              SizedBox(
+                height: height * 0.08,
+              ),
+              DashboardButton(text: 'ক্রেতার তথ্য', onTap: () {
+              //  Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const ClientListScreen()));
 
-            },),
-          ],
+              },),
+            ],
+          ),
         ),
       ),
     );

@@ -81,7 +81,7 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                     CustomerInfoUpdateScreen(customerId: '',)));
+                                      CustomerInfoUpdateScreen(customerId: '',)));
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(

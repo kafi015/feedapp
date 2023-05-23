@@ -109,8 +109,7 @@ class _ClientListScreenState extends State<ClientListScreen> {
                                   padding: const EdgeInsets.all(12.0),
                                   child: Center(
                                       child: Text(
-                                    '${_customerInfoModel.data?[index].name}' ??
-                                        'Unknown',
+                                    '${_customerInfoModel.data?[index].name}',
                                     style: const TextStyle(
                                         fontSize: 24, color: Colors.blue),
                                   )),
