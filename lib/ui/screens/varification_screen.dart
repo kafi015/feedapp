@@ -6,7 +6,12 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
 class VarificationScreen extends StatefulWidget {
-  const VarificationScreen({Key? key}) : super(key: key);
+  const VarificationScreen({Key? key, required this.name, required this.mobile, required this.pass, required this.role}) : super(key: key);
+
+  final String role;
+  final String name;
+  final String mobile;
+  final String pass;
 
   @override
   State<VarificationScreen> createState() => _VarificationScreenState();
@@ -15,6 +20,21 @@ class VarificationScreen extends StatefulWidget {
 class _VarificationScreenState extends State<VarificationScreen> {
   late double height;
   late double width;
+
+   String role = '';
+   String name = '';
+   String mobile = '';
+   String pass = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    role = widget.role;
+    name = widget.name;
+    mobile = widget.mobile;
+    pass = widget.pass;
+  }
 
   @override
   Widget build(BuildContext context) {

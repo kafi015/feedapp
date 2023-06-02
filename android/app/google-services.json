@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "914462158848",
+    "project_id": "feedapp-ad173",
+    "storage_bucket": "feedapp-ad173.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914462158848:android:203bb81370eea29c2368e5",
+        "android_client_info": {
+          "package_name": "com.feedapp.feedapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914462158848-2hg8remjmdjabc7vshuruqgjcb4rr6vt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdcLRQvY743nwJO3DgVwkILBB1OKHkoh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914462158848-2hg8remjmdjabc7vshuruqgjcb4rr6vt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

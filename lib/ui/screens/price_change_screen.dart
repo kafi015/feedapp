@@ -1,5 +1,4 @@
 
-import 'package:feedapp/Data/models/product_info_model.dart';
 import 'package:feedapp/Data/network_utils.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +18,11 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
   late double width;
 
   TextEditingController priceChangeETController = TextEditingController();
+  TextEditingController searchETController = TextEditingController();
 
-  ProductInfoModel _productInfoModel = ProductInfoModel();
   bool inProgress = false;
+  List<dynamic> _foundCustomer = [];
+  List<dynamic> _allCustomer = [];
 
   @override
   void initState() {
@@ -37,8 +38,11 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     try {
       final respone = await NetworkUtils().getMethod(Urls.productInfoUrl);
       if (respone != null) {
-        _productInfoModel = ProductInfoModel.fromJson(respone);
+        _allCustomer = respone;
+        _foundCustomer = respone;
       } else {
+        List<dynamic> list = [];
+        _foundCustomer = list;
         showSnackBarMessage(context, "Unable to fetch data");
       }
     } catch (e) {
@@ -49,11 +53,31 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     setState(() {});
   }
 
+  void _runFilter(String value)
+  {
+    List<dynamic> result = [];
+    if(value.isEmpty)
+    {
+      result = _allCustomer;
+    }
+    else
+    {
+      result = _allCustomer.where((customer) => customer['name'].toString().toLowerCase().contains(value.toLowerCase())).toList();
+    }
+    setState(() {
+      _foundCustomer = result;
+    });
+  }
+
+
   Future<void> updatePrice(String price, String sId) async {
     NetworkUtils()
         .updateMethode('${Urls.baseUrl}/updateProduct/$sId', body: {
       'price': price,
     });
+
+
+    await Future.delayed(const Duration(seconds: 1));
 
     priceChangeETController.clear();
     Navigator.of(context).pop();
@@ -81,6 +105,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
               content: AppTextFormField(
                 controller: priceChangeETController,
                 hintText: "",
+                keyBoardType: TextInputType.number,
               ),
               actions: [
                 Padding(
@@ -133,7 +158,8 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: TextFormField(
-                  controller: TextEditingController(),
+                  onChanged: (value) => _runFilter(value),
+                  controller: searchETController,
                   decoration: InputDecoration(
                     hintText: "Search",
                     hintStyle: const TextStyle(color: Colors.grey),
@@ -173,45 +199,50 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : ListView.builder(
-                itemCount: _productInfoModel.data!.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: const EdgeInsets.only(top: 10, bottom: 10),
-                    elevation: 10,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(34.0),
-                      side: const BorderSide(width: 1, color: Colors.blue),
-                    ),
-                    child: ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          _productInfoModel.data?[index].name ?? "Unknown",
-                          style: const TextStyle(color: Colors.blue),
-                        ),
+            : RefreshIndicator(
+              onRefresh: () async{
+                await getPrizeInfo();
+              },
+              child: ListView.builder(
+                  itemCount: _foundCustomer.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      margin: const EdgeInsets.only(top: 10, bottom: 10),
+                      elevation: 10,
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(34.0),
+                        side: const BorderSide(width: 1, color: Colors.blue),
                       ),
-                      trailing: InkWell(
-                          onTap: () {
-                            setState(() {
-                              priceChangeETController.text =
-                                  _productInfoModel.data?[index].price ?? '';
-                              myAlertDialog(context,
-                                  _productInfoModel.data?[index].sId ?? '');
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Text(
-                              _productInfoModel.data?[index].price ?? "00",
-                              style: const TextStyle(color: Colors.blue),
-                            ),
-                          )),
-                    ),
-                  );
-                },
-              ),
+                      child: ListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            _foundCustomer[index]['name'] ?? "Unknown",
+                            style: const TextStyle(color: Colors.blue),
+                          ),
+                        ),
+                        trailing: InkWell(
+                            onTap: () {
+                              setState(() {
+                                priceChangeETController.text =
+                                    _foundCustomer[index]['price'] ?? '0';
+                                myAlertDialog(context,
+                                    _foundCustomer[index]['_id'] ?? '');
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
+                                _foundCustomer[index]['price'] ?? "00",
+                                style: const TextStyle(color: Colors.blue),
+                              ),
+                            )),
+                      ),
+                    );
+                  },
+                ),
+            ),
       ),
     );
   }

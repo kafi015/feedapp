@@ -198,7 +198,9 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
                   ),
                   AppTextFormField(
                       controller: totalAmountEtController,
-                      hintText: "Enter amount"),
+                      hintText: "Enter amount",
+                    keyBoardType: TextInputType.number,
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -210,7 +212,8 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
                   ),
                   AppTextFormField(
                       controller: paidAmountEtController,
-                      hintText: "Enter paid amount"),
+                      hintText: "Enter paid amount",
+                    keyBoardType: TextInputType.number,),
                   const SizedBox(
                     height: 10,
                   ),
@@ -222,6 +225,7 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
                   ),
                   AppTextFormField(
                       controller: dueAmountEtController,
+                      keyBoardType: TextInputType.number,
                       hintText: "Enter due amount"),
                   const SizedBox(
                     height: 10,

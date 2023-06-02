@@ -35,7 +35,7 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2020, 8),
-        lastDate: DateTime(2101));
+        lastDate: DateTime.now());
 
     if (picked != null && picked != selectedDate) {
       setState(() {
@@ -144,6 +144,7 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     AppTextFormField(
                       controller: totalAmountEtController,
                       hintText: "Enter amount",
+                      keyBoardType: TextInputType.number,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return "Enter total amount";
@@ -163,6 +164,7 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     AppTextFormField(
                       controller: paidAmountEtController,
                       hintText: "Enter paid amount",
+                      keyBoardType: TextInputType.number,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return "Enter paid amount";
@@ -182,6 +184,7 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     AppTextFormField(
                       controller: dueAmountEtController,
                       hintText: "Enter due amount",
+                      keyBoardType: TextInputType.number,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return "Enter due amount";
@@ -224,7 +227,6 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                     textColor: Colors.white,
                     buttonColor: Colors.blue,
                     onTap: () async {
-
                       if (_formKey.currentState!.validate()) {
                         final result = await NetworkUtils()
                             .postMethod(Urls.customerInfoUrl, body: {
@@ -243,14 +245,14 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                           dueAmountEtController.clear();
                           noteEtController.clear();
                           selectedDate = DateTime.now();
-                          setState(() {
-
-                          });
+                          setState(() {});
                           showSnackBarMessage(context,
                               "Customer Information  Saved!", Colors.blue);
                         } else {
-                          showSnackBarMessage(context,
-                              "Failed to save customer information! Try again.", Colors.red);
+                          showSnackBarMessage(
+                              context,
+                              "Failed to save customer information! Try again.",
+                              Colors.red);
                         }
                       }
                     }),

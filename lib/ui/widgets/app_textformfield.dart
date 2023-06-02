@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 
 class AppTextFormField extends StatelessWidget {
   const AppTextFormField({
-    Key? key, this.obscure, required this.controller, required this.hintText, this.validator,
+    Key? key, this.obscure, required this.controller, required this.hintText, this.validator,  this.keyBoardType, this.onChanged,
   }) : super(key: key);
 
   final bool? obscure;
   final TextEditingController controller;
   final String hintText;
   final Function(String?)? validator;
+  final TextInputType? keyBoardType;
+  final Function(String?)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyBoardType,
       controller: controller,
       obscureText: obscure ?? false,
       obscuringCharacter: '*',
@@ -22,6 +25,7 @@ class AppTextFormField extends StatelessWidget {
         }
         return null;
       },
+      onChanged: onChanged,
 
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(

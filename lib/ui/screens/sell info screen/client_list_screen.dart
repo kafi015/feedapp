@@ -1,4 +1,3 @@
-import 'package:feedapp/Data/models/customer_info_model.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +18,10 @@ class _ClientListScreenState extends State<ClientListScreen> {
   late double height;
   late double width;
 
-  CustomerInfoModel _customerInfoModel = CustomerInfoModel();
+  TextEditingController searchName = TextEditingController();
   bool inProgress = false;
+  List<dynamic> _foundCustomer = [];
+  List<dynamic> _allCustomer = [];
 
   @override
   void initState() {
@@ -37,11 +38,12 @@ class _ClientListScreenState extends State<ClientListScreen> {
       final respone = await NetworkUtils().getMethod(Urls.customerInfoUrl);
       //print(respone);
       if (respone != null) {
-        _customerInfoModel = CustomerInfoModel.fromJson(respone);
+        _allCustomer = respone;
+        _foundCustomer = respone;
       } else {
 
         List<dynamic> list = [];
-        _customerInfoModel = CustomerInfoModel.fromJson(list);
+        _foundCustomer = list;
         showSnackBarMessage(context, "Unable to fetch data");
       }
     } catch (e) {
@@ -51,6 +53,23 @@ class _ClientListScreenState extends State<ClientListScreen> {
     inProgress = false;
     setState(() {});
   }
+
+  void _runFilter(String value)
+  {
+    List<dynamic> result = [];
+    if(value.isEmpty)
+      {
+        result = _allCustomer;
+      }
+    else
+      {
+        result = _allCustomer.where((customer) => customer['name'].toString().toLowerCase().contains(value.toLowerCase())).toList();
+      }
+    setState(() {
+      _foundCustomer = result;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +98,10 @@ class _ClientListScreenState extends State<ClientListScreen> {
               height: height * 0.04,
             ),
             AppTextFormField(
-                controller: TextEditingController(),
-                hintText: "Search the name"),
+                controller: searchName,
+                hintText: "Search the name",
+              onChanged: (value) => _runFilter(value!),
+            ),
             SizedBox(
               height: height * 0.04,
             ),
@@ -88,39 +109,40 @@ class _ClientListScreenState extends State<ClientListScreen> {
                 child: inProgress
                     ? const Center(child: CircularProgressIndicator())
                     : ListView.builder(
-                        itemCount: _customerInfoModel.data!.length,
+                    itemCount: _foundCustomer.length,
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: height * 0.03),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                             CustomerInfoUpdateScreen(
-                                              customerId: _customerInfoModel.data?[index].sId ?? '',
-                                            )));
-                              },
-                              child: Card(
-                                elevation: 10,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(34.0),
-                                  side: const BorderSide(
-                                      color: Colors.blue, width: 1),
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: height * 0.03),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CustomerInfoUpdateScreen(
+                                                  customerId: '${_foundCustomer[index]['_id']}',
+                                                )));
+                                  },
+                                  child: Card(
+                                    elevation: 10,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(34.0),
+                                      side: const BorderSide(
+                                          color: Colors.blue, width: 1),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Center(
+                                          child: Text(
+                                            '${_foundCustomer[index]['name']}',
+                                            style: const TextStyle(
+                                                fontSize: 24, color: Colors.blue),
+                                          )),
+                                    ),
+                                  ),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Center(
-                                      child: Text(
-                                    '${_customerInfoModel.data?[index].name}',
-                                    style: const TextStyle(
-                                        fontSize: 24, color: Colors.blue),
-                                  )),
-                                ),
-                              ),
-                            ),
-                          );
+                              );
+
                         }))
           ],
         ),

@@ -21,7 +21,7 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2020, 8),
-        lastDate: DateTime(2101));
+        lastDate: DateTime.now());
 
     if (picked != null && picked != selectedDate) {
       setState(() {
@@ -30,6 +30,7 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
       });
     }
   }
+
   bool inProgress = false;
   String dateCompare = '';
   CustomerInfoModel _customerInfoModel = CustomerInfoModel();
@@ -49,10 +50,8 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
       final respone = await NetworkUtils().getMethod(Urls.customerInfoUrl);
       //print(respone);
       if (respone != null) {
-
         _customerInfoModel = CustomerInfoModel.fromJson(respone);
         dateCompare = '${selectedDate.toLocal()}'.split(' ').first;
-
       } else {
         showSnackBarMessage(context, "Unable to fetch data");
       }
@@ -106,60 +105,63 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
             ),
           ),
           Expanded(
-            child: inProgress? const Center(child: CircularProgressIndicator()) : ListView.builder(
-                itemCount: _customerInfoModel.data?.length,
-                itemBuilder: (context, index) {
-
-                  if(_customerInfoModel.data?[index].date == dateCompare)
-                    {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 20),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CustomerInfoUpdateScreen(customerId: '${_customerInfoModel.data?[index].sId}',)));
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(34.0),
-                              side: const BorderSide(color: Colors.blue, width: 1),
-                            ),
-                            child:  Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    _customerInfoModel.data![index].name ?? 'Unknown',
-                                    style:
-                                    const TextStyle(fontSize: 24, color: Colors.blue),
-                                  ),
+            child: inProgress
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: _customerInfoModel.data?.length,
+                    itemBuilder: (context, index) {
+                      if (_customerInfoModel.data?[index].date == dateCompare) {
+                        return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 20),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CustomerInfoUpdateScreen(
+                                              customerId:
+                                                  '${_customerInfoModel.data?[index].sId}',
+                                            )));
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(34.0),
+                                  side: const BorderSide(
+                                      color: Colors.blue, width: 1),
                                 ),
-                                const Divider(
-                                  thickness: 1,
-                                  color: Colors.blue,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        _customerInfoModel.data![index].name ??
+                                            'Unknown',
+                                        style: const TextStyle(
+                                            fontSize: 24, color: Colors.blue),
+                                      ),
+                                    ),
+                                    const Divider(
+                                      thickness: 1,
+                                      color: Colors.blue,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        _customerInfoModel.data?[index].due ??
+                                            'Unknown',
+                                        style: const TextStyle(
+                                            fontSize: 24, color: Colors.blue),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    _customerInfoModel.data?[index].due ?? 'Unknown',
-                                    style:
-                                    const TextStyle(fontSize: 24, color: Colors.blue),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                        );
-
-                    }
-                  return Container();
-
-                }),
+                              ),
+                            ));
+                      }
+                      return Container();
+                    }),
           )
         ],
       ),
