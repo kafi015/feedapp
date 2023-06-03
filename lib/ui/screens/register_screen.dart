@@ -1,3 +1,4 @@
+import 'package:feedapp/Data/number.dart';
 import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/screens/varification_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
@@ -27,9 +28,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController confirmPassETController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final String countryCode = "+88";
-  final String mobileNumber = "01622016786";
 
   @override
   Widget build(BuildContext context) {
@@ -184,23 +182,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   textColor: Colors.white,
                   buttonColor: Colors.blue,
                   onTap: () async {
+                    //_formKey.currentState!.validate()
                     if (_formKey.currentState!.validate()) {
-                      FirebaseAuth auth = FirebaseAuth.instance;
-
-                      await auth.verifyPhoneNumber(
-                        phoneNumber: countryCode + mobileNumber,
-                        verificationCompleted:
-                            (PhoneAuthCredential credential) async {
-                          // ANDROID ONLY!
-
-                          // Sign the user in (or link) with the auto-generated credential
-                          await auth.signInWithCredential(credential);
-                        },
-                        codeSent: (String verificationId,
-                            int? forceResendingToken) {},
-                        verificationFailed: (FirebaseAuthException error) {},
-                        codeAutoRetrievalTimeout: (String verificationId) {},
-                      );
                       Navigator.push(
                           context,
                           MaterialPageRoute(

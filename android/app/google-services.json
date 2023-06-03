@@ -1,18 +1,27 @@
 {
   "project_info": {
     "project_number": "914462158848",
+    "firebase_url": "https://feedapp-ad173-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "feedapp-ad173",
     "storage_bucket": "feedapp-ad173.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:914462158848:android:203bb81370eea29c2368e5",
+        "mobilesdk_app_id": "1:914462158848:android:b7b93c6aeadfb8212368e5",
         "android_client_info": {
           "package_name": "com.feedapp.feedapp"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "914462158848-fhps2phjv6anhd3fsu77nm4ioe5c9kd5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.feedapp.feedapp",
+            "certificate_hash": "8e14e490437e762ab17fc49a7ef523eeda4f98aa"
+          }
+        },
         {
           "client_id": "914462158848-2hg8remjmdjabc7vshuruqgjcb4rr6vt.apps.googleusercontent.com",
           "client_type": 3

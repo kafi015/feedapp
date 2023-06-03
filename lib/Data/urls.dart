@@ -3,6 +3,7 @@ class Urls {
   static String baseUrl = "https://mobileappbackend.onrender.com";
   static String productInfoUrl = "$baseUrl/productInfo";
   static String customerInfoUrl = "$baseUrl/customerInfo";
+  static String userInfoUrl = "$baseUrl/appUsers";
 
   static String changeProductPrice(String productId) =>
       '$baseUrl/updateProduct/$productId';

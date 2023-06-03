@@ -1,8 +1,11 @@
+import 'package:feedapp/Data/network_utils.dart';
 import 'package:feedapp/ui/screens/accomplish_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../Data/urls.dart';
+import '../utils/snakbar_message.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
 class VarificationScreen extends StatefulWidget {
@@ -168,11 +171,35 @@ class _VarificationScreenState extends State<VarificationScreen> {
                 text: "Submit",
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AccomplishScreen()));
+                onTap: () async{
+
+                  final result = await NetworkUtils()
+                      .postMethod(Urls.userInfoUrl, body: {
+                    "name": name,
+                    "email": "",
+                    "role": role,
+                    "number": mobile,
+                    "password": pass
+                  });
+
+                  if(result != null)
+                    {
+                      showSnackBarMessage(context,
+                          "Registration Succefull!", Colors.blue);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AccomplishScreen()));
+                    }
+                  else
+                    {
+                      showSnackBarMessage(
+                          context,
+                          "Ragistration Failed!",
+                          Colors.red);
+                    }
+
+
                 },
               ),
             ],
