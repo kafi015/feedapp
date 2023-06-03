@@ -6,7 +6,9 @@ import '../widgets/app_elevatedbutton.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
 class ForgotVarification extends StatefulWidget {
-  const ForgotVarification({Key? key}) : super(key: key);
+  const ForgotVarification({Key? key, required this.mobileNumber}) : super(key: key);
+
+  final String mobileNumber;
 
   @override
   State<ForgotVarification> createState() => _ForgotVarificationState();
@@ -15,6 +17,14 @@ class ForgotVarification extends StatefulWidget {
 class _ForgotVarificationState extends State<ForgotVarification> {
   late double height;
   late double width;
+  String mobileNumber = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    mobileNumber = widget.mobileNumber;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +162,7 @@ class _ForgotVarificationState extends State<ForgotVarification> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SetPasswordScreen()));
+                          builder: (context) =>  SetPasswordScreen(mobileNumber: mobileNumber,)));
                 },
               ),
             ],

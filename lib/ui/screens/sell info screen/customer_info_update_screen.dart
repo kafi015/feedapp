@@ -100,7 +100,7 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
 
   }
 
-  Future<void> updatePrice(String date,String total, String paid, String due, String note) async {
+  Future<void> updateCustomerDetails(String date,String total, String paid, String due, String note) async {
     NetworkUtils().updateMethode(Urls.updateCustomerInfo(customerId), body: {
 
       "date": date,
@@ -254,7 +254,7 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
                   textColor: Colors.white,
                   buttonColor: Colors.blue,
                   onTap: () {
-                    updatePrice(dateEtController.text.split(' ')[0], totalAmountEtController.text, paidAmountEtController.text, dueAmountEtController.text, noteEtController.text);
+                    updateCustomerDetails(dateEtController.text.split(' ')[0], totalAmountEtController.text, paidAmountEtController.text, dueAmountEtController.text, noteEtController.text);
                   }),
             ),
           ],

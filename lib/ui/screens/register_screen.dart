@@ -1,9 +1,7 @@
-import 'package:feedapp/Data/number.dart';
 import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/screens/varification_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/appbar_home_icon_button.dart';

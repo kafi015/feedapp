@@ -35,7 +35,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -44,10 +43,9 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   Future<void> getUserInfo() async {
-
     try {
       final respone = await NetworkUtils().getMethod(Urls.userInfoUrl);
-      print(respone);
+      // print(respone);
       if (respone != null) {
         userList = respone;
       } else {}
@@ -201,53 +199,50 @@ class _LogInScreenState extends State<LogInScreen> {
                     textColor: Colors.white,
                     buttonColor: Colors.blue,
                     onTap: () {
-                      if (_formKey.currentState!.validate())
-                        {
-                          if (userList.isNotEmpty) {
-                            for (var item in userList) {
-                              if ((_dropDownValue == item['role'] &&
-                                  _dropDownValue == "Admin") &&
-                                  mobileETController.text == item['number'] &&
-                                  passETController.text == item['password']) {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const AdminDashboard()),
-                                        (route) => false);
-                                isLogIn = true;
-                                break;
-                              } else if ((_dropDownValue == item['role'] &&
-                                  _dropDownValue == "Employee") &&
-                                  mobileETController.text == item['number'] &&
-                                  passETController.text == item['password']) {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const EmployeeDashboard()),
-                                        (route) => false);
-                                isLogIn = true;
-                                break;
-                              }
+                      if (_formKey.currentState!.validate()) {
+                        if (userList.isNotEmpty) {
+                          for (var item in userList) {
+                            if ((_dropDownValue == item['role'] &&
+                                    _dropDownValue == "Admin") &&
+                                mobileETController.text == item['number'] &&
+                                passETController.text == item['password']) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AdminDashboard()),
+                                  (route) => false);
+                              isLogIn = true;
+                              break;
+                            } else if ((_dropDownValue == item['role'] &&
+                                    _dropDownValue == "Employee") &&
+                                mobileETController.text == item['number'] &&
+                                passETController.text == item['password']) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EmployeeDashboard()),
+                                  (route) => false);
+                              isLogIn = true;
+                              break;
                             }
+                          }
 
-                            if(isLogIn)
-                            {
-                              showSnackBarMessage(
-                                  context, "LogIn Successful",Colors.blue);
-                            }
-                            else
-                            {
-                              showSnackBarMessage(
-                                  context, "Incorrect role, mobile number or password",Colors.red);
-                            }
-
+                          if (isLogIn) {
+                            showSnackBarMessage(
+                                context, "LogIn Successful", Colors.blue);
                           } else {
                             showSnackBarMessage(
-                                context, "Please Check your internet connection");
+                                context,
+                                "Incorrect role, mobile number or password",
+                                Colors.red);
                           }
+                        } else {
+                          showSnackBarMessage(
+                              context, "Please Check your internet connection");
                         }
-
+                      }
                     },
                   ),
                   SizedBox(
