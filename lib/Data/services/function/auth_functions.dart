@@ -5,6 +5,7 @@ import 'package:feedapp/ui/utils/snakbar_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../ui/screens/accomplish_screen.dart';
 import 'firebase_functions.dart';
 
 
@@ -21,6 +22,11 @@ class AuthServices {
       await FirebaseAuth.instance.currentUser!.updateEmail(mobile);
       await FirestoreServices.saveUser(
           role, name, mobile, pass, userCredential.user!.uid);
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AccomplishScreen()));
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

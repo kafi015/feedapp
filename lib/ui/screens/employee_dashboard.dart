@@ -35,6 +35,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
               onPressed: () async{
                 await FirebaseAuth.instance.signOut();
                 LogInScreen.role = '';
+                setState(() {});
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feedapp/ui/screens/pass_change_message.dart';
 import 'package:feedapp/ui/widgets/appbar_logo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../Data/network_utils.dart';
@@ -10,9 +12,9 @@ import '../widgets/app_textformfield.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
 class SetPasswordScreen extends StatefulWidget {
-  const SetPasswordScreen({Key? key, required this.id}) : super(key: key);
+  const SetPasswordScreen({Key? key, required this.email}) : super(key: key);
 
-  final String id;
+  final String email;
 
   @override
   State<SetPasswordScreen> createState() => _SetPasswordScreenState();
@@ -21,7 +23,7 @@ class SetPasswordScreen extends StatefulWidget {
 class _SetPasswordScreenState extends State<SetPasswordScreen> {
   late double height;
   late double width;
-  String _id = '';
+  String _email = '';
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController passETController = TextEditingController();
   TextEditingController confirmPassETController = TextEditingController();
@@ -30,12 +32,12 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _id = widget.id;
+    _email = widget.email;
   }
 
   Future<void> updatePasword(String pass) async {
 
-    final response = await NetworkUtils().updateMethode(Urls.updateUserPassInfo(_id), body: {
+    final response = await NetworkUtils().updateMethode(Urls.updateUserPassInfo(_email), body: {
       "password": pass
     });
 
@@ -161,7 +163,19 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
 
                     if(_formKey.currentState!.validate())
                       {
-                        updatePasword(passETController.text);
+                        FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+                        firebaseFirestore.collection('users').get().then((doucment)
+                        {
+                          for(var docs in doucment.docs)
+                          {
+                            if(docs.get('mobile') == _email)
+                            {
+                              setState(() {});
+                              break;
+                            }
+                          }
+                        }
+                        );
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const PassChangeMessage()));
 
                       }

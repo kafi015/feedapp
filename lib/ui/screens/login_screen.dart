@@ -1,18 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:feedapp/ui/screens/admin_dashboard.dart';
 import 'package:feedapp/ui/screens/forgot_password_screen.dart';
 import 'package:feedapp/ui/screens/register_screen.dart';
 import 'package:feedapp/ui/screens/splash_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
-import '../../Data/network_utils.dart';
 import '../../Data/services/function/auth_functions.dart';
-import '../../Data/urls.dart';
 import '../utils/snakbar_message.dart';
-import '../widgets/appbar_home_icon_button.dart';
 import '../widgets/appbar_logo.dart';
-import 'employee_dashboard.dart';
 
 const List<String> list = <String>['Admin', 'Employee'];
 
@@ -37,24 +32,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getUserInfo();
-  }
-
-  Future<void> getUserInfo() async {
-    try {
-      final respone = await NetworkUtils().getMethod(Urls.userInfoUrl);
-      // print(respone);
-      if (respone != null) {
-        userList = respone;
-      } else {}
-    } catch (e) {
-      //print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,13 +138,18 @@ class _LogInScreenState extends State<LogInScreen> {
                               {
                                 LogInScreen.role = docs.get('role');
                                 setState(() {});
-                                print("role ajsdfnlaksdnfakjsdbnajjsdbfakjsdfnlaksdnfiajsdlasjkdnflkasdnflakjsdjfnalskjdnfaidff");
-                                print(LogInScreen.role);
                                 break;
                               }
                             }
                           }
                           );
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty || !value.contains('@gmail.com')) {
+                            return 'Please Enter valid Email';
+                          } else {
+                            return null;
+                          }
                         },
                         // validator: (value) {
                         //   if (value?.isEmpty ?? true) {

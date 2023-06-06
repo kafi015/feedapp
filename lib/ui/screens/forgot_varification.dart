@@ -1,3 +1,4 @@
+import 'package:feedapp/Data/number.dart';
 import 'package:feedapp/ui/screens/set_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,9 @@ import '../widgets/app_elevatedbutton.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
 class ForgotVarification extends StatefulWidget {
-  const ForgotVarification({Key? key, required this.id}) : super(key: key);
+  const ForgotVarification({Key? key, required this.email}) : super(key: key);
 
-  final String id;
+  final String email;
   static String verifyId = "";
 
   @override
@@ -20,7 +21,7 @@ class ForgotVarification extends StatefulWidget {
 class _ForgotVarificationState extends State<ForgotVarification> {
   late double height;
   late double width;
-  String _id = '';
+  String _email = '';
   FirebaseAuth auth = FirebaseAuth.instance;
   String smsCode = "";
 
@@ -28,7 +29,7 @@ class _ForgotVarificationState extends State<ForgotVarification> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _id = widget.id;
+    _email = widget.email;
   }
 
   @override
@@ -84,7 +85,7 @@ class _ForgotVarificationState extends State<ForgotVarification> {
                     style: TextStyle(fontSize: height * .023),
                   ),
                   Text(
-                    " +8801234567890",
+                    MobileNumber.countryCode + MobileNumber.mobileNumber,
                     style:
                         TextStyle(color: Colors.blue, fontSize: height * .023),
                   ),
@@ -175,7 +176,7 @@ class _ForgotVarificationState extends State<ForgotVarification> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SetPasswordScreen(
-                              id: _id,
+                              email: _email,
                             )));
                   }catch(e)
                   {

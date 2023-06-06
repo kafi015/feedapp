@@ -36,6 +36,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               onPressed: () async{
                 await FirebaseAuth.instance.signOut();
                 LogInScreen.role = '';
+                setState(() {});
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(

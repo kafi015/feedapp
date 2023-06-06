@@ -1,6 +1,7 @@
 import 'package:feedapp/Data/network_utils.dart';
 import 'package:feedapp/ui/screens/accomplish_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -16,6 +17,8 @@ class VarificationScreen extends StatefulWidget {
   final String name;
   final String mobile;
   final String pass;
+  static String verifyId = "";
+
 
   @override
   State<VarificationScreen> createState() => _VarificationScreenState();
@@ -29,6 +32,8 @@ class _VarificationScreenState extends State<VarificationScreen> {
    String name = '';
    String mobile = '';
    String pass = '';
+  String smsCode = "";
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -103,10 +108,10 @@ class _VarificationScreenState extends State<VarificationScreen> {
                 height: height * .04,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * .13),
+                padding: EdgeInsets.symmetric(horizontal: width * .01),
                 child: PinCodeTextField(
                   cursorColor: Colors.blue,
-                  length: 4,
+                  length: 6,
                   obscureText: false,
                   animationType: AnimationType.fade,
                   pinTheme: PinTheme(
@@ -126,7 +131,9 @@ class _VarificationScreenState extends State<VarificationScreen> {
                   enableActiveFill: true,
                   onCompleted: (v) {},
                   onChanged: (value) {
-                    setState(() {});
+                    setState(() {
+                      smsCode = value;
+                    });
                   },
                   beforeTextPaste: (text) {
                     //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
@@ -173,8 +180,21 @@ class _VarificationScreenState extends State<VarificationScreen> {
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
                 onTap: () async{
-                  AuthServices.signupUser(
-                      role, name, mobile, pass, context);
+                  try{
+                    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                        verificationId: VarificationScreen.verifyId,
+                        smsCode: smsCode);
+                    await auth.signInWithCredential(credential);
+                    AuthServices.signupUser(
+                        role, name, mobile, pass, context);
+
+                  }catch(e)
+                  {
+                    showSnackBarMessage(
+                        context, "Wrong OTP",
+                        Colors.red);
+                  }
+
                 },
               ),
             ],

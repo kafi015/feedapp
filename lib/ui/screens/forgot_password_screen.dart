@@ -21,34 +21,15 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
   late double height;
   late double width;
 
-  TextEditingController mobileETController = TextEditingController();
+  TextEditingController emailETController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   List<dynamic> userList = [];
   bool isNumberExist = false;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getUserInfo();
-  }
-
-  Future<void> getUserInfo() async {
-    try {
-      final respone = await NetworkUtils().getMethod(Urls.userInfoUrl);
-
-      // print(respone);
-      if (respone != null) {
-        userList = respone;
-      } else {}
-    } catch (e) {
-      //print(e);
-    }
-  }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  phoneAuth(String userId) {
+  phoneAuth(String email) {
     _auth.verifyPhoneNumber(
       phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
         timeout: const Duration(seconds: 120),
@@ -71,7 +52,7 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      ForgotVarification(id: userId,)));
+                      ForgotVarification(email: email,)));
         },
         codeAutoRetrievalTimeout: (String varificationId){
 
@@ -150,21 +131,28 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
                 SizedBox(
                   height: height * 0.08,
                   child: AppTextFormField(
-                      controller: mobileETController,
-                      keyBoardType: TextInputType.phone,
+                      controller: emailETController,
+                      keyBoardType: TextInputType.emailAddress,
                       validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return "Enter your mobile number";
+                        if (value!.isEmpty || !value.contains('@gmail.com')) {
+                          return 'Please Enter valid Email';
+                        } else {
+                          return null;
                         }
-                        if (value!.length < 11) {
-                          return "Mobile number must be 11 digit";
-                        }
-                        if (value.length > 11) {
-                          return "Mobile number must be 11 digit";
-                        }
-                        return null;
                       },
-                      hintText: "Enter the phone number"),
+                      // validator: (value) {
+                      //   if (value?.isEmpty ?? true) {
+                      //     return "Enter your mobile number";
+                      //   }
+                      //   if (value!.length < 11) {
+                      //     return "Mobile number must be 11 digit";
+                      //   }
+                      //   if (value.length > 11) {
+                      //     return "Mobile number must be 11 digit";
+                      //   }
+                      //   return null;
+                      // },
+                      hintText: "Enter your email address"),
                 ),
                 SizedBox(
                   height: height * .1,
@@ -173,29 +161,17 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
                   text: "Continue",
                   textColor: Colors.white,
                   buttonColor: Colors.blue,
-                  onTap: () {
-
-
+                  onTap: () async{
                     if (_formKey.currentState!.validate()) {
-                      if (userList.isNotEmpty) {
-                        for (var item in userList) {
-                          if (mobileETController.text == item['number']) {
+                      try {
+                        await FirebaseAuth.instance.sendPasswordResetEmail(email: emailETController.text);
+                        phoneAuth(emailETController.text);
 
-                            phoneAuth(item['_id']);
-
-                            isNumberExist = true;
-                            break;
-                          }
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Email doesn't exist!")));
                         }
-                        if (!isNumberExist) {
-                          showSnackBarMessage(
-                              context, "Number doesn't exist.", Colors.red);
-                        }
-                      }
-                      else {
-                        showSnackBarMessage(
-                            context, "Please Check your internet connection",
-                            Colors.red);
                       }
                     }
                   },

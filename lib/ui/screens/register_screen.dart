@@ -2,7 +2,9 @@ import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/screens/varification_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../Data/number.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
 const List<String> list = <String>['Admin', 'Employee'];
@@ -20,11 +22,46 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   late double width;
 
   TextEditingController nameETController = TextEditingController();
-  TextEditingController mobileETController = TextEditingController();
+  TextEditingController emailETController = TextEditingController();
   TextEditingController passETController = TextEditingController();
   TextEditingController confirmPassETController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  phoneAuth() {
+    _auth.verifyPhoneNumber(
+      phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async{
+        // var result = await _auth.signInWithCredential(credential);
+        // User? user = result.user;
+        // if(user != null)
+        //   {
+        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotVarification(id: '')));
+        //   }
+
+      },
+      verificationFailed: (FirebaseAuthException exception)
+      {
+        // print(exception);
+      },
+      codeSent: (String varificationId, int? resendToken){
+        VarificationScreen.verifyId = varificationId;
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => VarificationScreen(
+                    role: _dropDownValue,
+                    name: nameETController.text,
+                    mobile: emailETController.text,
+                    pass: passETController.text)));
+      },
+      codeAutoRetrievalTimeout: (String varificationId){
+
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,8 +168,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: height * 0.08,
 
                   child: AppTextFormField(
-                      controller: mobileETController,
-                      keyBoardType: TextInputType.phone,
+                      controller: emailETController,
+                      keyBoardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value!.isEmpty || !value.contains('@gmail.com')) {
+                          return 'Please Enter valid Email';
+                        } else {
+                          return null;
+                        }
+                      },
                       // validator: (value) {
                       //   if (value?.isEmpty ?? true) {
                       //     return "Enter your mobile number";
@@ -145,7 +189,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       //   }
                       //   return null;
                       // },
-                      hintText: "Enter your mobile"),
+                      hintText: "Enter your email"),
                 ),
                 SizedBox(
                   height: height * .013,
@@ -197,14 +241,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onTap: () async {
                     //_formKey.currentState!.validate()
                     if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VarificationScreen(
-                                  role: _dropDownValue,
-                                  name: nameETController.text,
-                                  mobile: mobileETController.text,
-                                  pass: passETController.text)));
+                      phoneAuth();
                     }
                   },
                 ),
