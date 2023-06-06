@@ -1,14 +1,17 @@
 import 'package:feedapp/ui/screens/set_password_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../utils/snakbar_message.dart';
 import '../widgets/app_elevatedbutton.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
 class ForgotVarification extends StatefulWidget {
-  const ForgotVarification({Key? key, required this.mobileNumber}) : super(key: key);
+  const ForgotVarification({Key? key, required this.id}) : super(key: key);
 
-  final String mobileNumber;
+  final String id;
+  static String verifyId = "";
 
   @override
   State<ForgotVarification> createState() => _ForgotVarificationState();
@@ -17,13 +20,15 @@ class ForgotVarification extends StatefulWidget {
 class _ForgotVarificationState extends State<ForgotVarification> {
   late double height;
   late double width;
-  String mobileNumber = '';
+  String _id = '';
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String smsCode = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    mobileNumber = widget.mobileNumber;
+    _id = widget.id;
   }
 
   @override
@@ -56,7 +61,7 @@ class _ForgotVarificationState extends State<ForgotVarification> {
               ),
               Image.asset(
                 "assets/varification.png",
-                scale: height * .002,
+                scale: height * .004,
               ),
               SizedBox(
                 height: height * .06,
@@ -89,10 +94,10 @@ class _ForgotVarificationState extends State<ForgotVarification> {
                 height: height * .04,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * .13),
+                padding: EdgeInsets.symmetric(horizontal: width * .01),
                 child: PinCodeTextField(
                   cursorColor: Colors.blue,
-                  length: 4,
+                  length: 6,
                   obscureText: false,
                   animationType: AnimationType.fade,
                   pinTheme: PinTheme(
@@ -112,7 +117,9 @@ class _ForgotVarificationState extends State<ForgotVarification> {
                   enableActiveFill: true,
                   onCompleted: (v) {},
                   onChanged: (value) {
-                    setState(() {});
+                    setState(() {
+                      smsCode = value;
+                    });
                   },
                   beforeTextPaste: (text) {
                     //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
@@ -158,11 +165,24 @@ class _ForgotVarificationState extends State<ForgotVarification> {
                 text: "Submit",
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>  SetPasswordScreen(mobileNumber: mobileNumber,)));
+                onTap: () async {
+                  try{
+                    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                        verificationId: ForgotVarification.verifyId,
+                        smsCode: smsCode);
+                    await auth.signInWithCredential(credential);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SetPasswordScreen(
+                              id: _id,
+                            )));
+                  }catch(e)
+                  {
+                    showSnackBarMessage(
+                        context, "Wrong OTP",
+                        Colors.red);
+                  }
                 },
               ),
             ],

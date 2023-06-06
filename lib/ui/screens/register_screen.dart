@@ -3,7 +3,6 @@ import 'package:feedapp/ui/screens/varification_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/appbar_home_icon_button.dart';
 
 const List<String> list = <String>['Admin', 'Employee'];
@@ -60,7 +59,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 Image.asset(
                   "assets/register.png",
-                  scale: height * 0.002,
+                  scale: height * 0.004,
                 ),
                 const SizedBox(
                   height: 10,
@@ -111,67 +110,83 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 SizedBox(
                   height: height * .013,
                 ),
-                AppTextFormField(
-                  controller: nameETController,
-                  hintText: "Enter your name",
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return "Enter your name";
-                    }
-                    return null;
-                  },
-                ),
                 SizedBox(
-                  height: height * .013,
-                ),
-                AppTextFormField(
-                    controller: mobileETController,
-                    keyBoardType: TextInputType.phone,
+                  height: height * 0.08,
+
+                  child: AppTextFormField(
+                    controller: nameETController,
+                    hintText: "Enter your name",
                     validator: (value) {
                       if (value?.isEmpty ?? true) {
-                        return "Enter your mobile number";
-                      }
-                      if (value!.length < 11) {
-                        return "Mobile number must be 11 digit";
-                      }
-                      if (value.length > 11) {
-                        return "Mobile number must be 11 digit";
+                        return "Enter your name";
                       }
                       return null;
                     },
-                    hintText: "Enter your mobile"),
-                SizedBox(
-                  height: height * .013,
-                ),
-                AppTextFormField(
-                  controller: passETController,
-                  hintText: "Password",
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return "Enter password more than 6 letter";
-                    }
-                    if ((value?.length ?? 0) < 6) {
-                      return "Enter password more than 6 letter";
-                    }
-                    return null;
-                  },
+                  ),
                 ),
                 SizedBox(
                   height: height * .013,
                 ),
-                AppTextFormField(
-                    controller: confirmPassETController,
+                SizedBox(
+                  height: height * 0.08,
+
+                  child: AppTextFormField(
+                      controller: mobileETController,
+                      keyBoardType: TextInputType.phone,
+                      // validator: (value) {
+                      //   if (value?.isEmpty ?? true) {
+                      //     return "Enter your mobile number";
+                      //   }
+                      //   if (value!.length < 11) {
+                      //     return "Mobile number must be 11 digit";
+                      //   }
+                      //   if (value.length > 11) {
+                      //     return "Mobile number must be 11 digit";
+                      //   }
+                      //   return null;
+                      // },
+                      hintText: "Enter your mobile"),
+                ),
+                SizedBox(
+                  height: height * .013,
+                ),
+                SizedBox(
+                  height: height * 0.08,
+
+                  child: AppTextFormField(
+                    controller: passETController,
+                    hintText: "Password",
                     validator: (value) {
                       if (value?.isEmpty ?? true) {
                         return "Enter password more than 6 letter";
                       }
-                      if (passETController.text !=
-                          confirmPassETController.text) {
-                        return "Password does not match!";
+                      if ((value?.length ?? 0) < 6) {
+                        return "Enter password more than 6 letter";
                       }
                       return null;
                     },
-                    hintText: "Confirm password"),
+                  ),
+                ),
+                SizedBox(
+                  height: height * .013,
+                ),
+                SizedBox(
+                  height: height * 0.08,
+
+                  child: AppTextFormField(
+                      controller: confirmPassETController,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return "Enter password more than 6 letter";
+                        }
+                        if (passETController.text !=
+                            confirmPassETController.text) {
+                          return "Password does not match!";
+                        }
+                        return null;
+                      },
+                      hintText: "Confirm password"),
+                ),
                 SizedBox(
                   height: height * .04,
                 ),
@@ -193,29 +208,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     }
                   },
                 ),
-                SizedBox(
-                  height: height * 0.05,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Already have an account ? ",
-                      style: TextStyle(fontSize: height * 0.023),
-                    ),
-                    InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LogInScreen()));
-                        },
-                        child: Text(
-                          "Sign In",
-                          style: TextStyle(
-                              color: Colors.blue, fontSize: height * 0.023),
-                        )),
-                  ],
+                Container(
+                  margin: EdgeInsets.only(top: height * 0.05,bottom: height * 0.05),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Already have an account ? ",
+                        style: TextStyle(fontSize: height * 0.023),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LogInScreen()));
+                          },
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                                color: Colors.blue, fontSize: height * 0.023),
+                          )),
+                    ],
+                  ),
                 ),
               ],
             ),

@@ -27,6 +27,7 @@ class AppTextFormField extends StatelessWidget {
       },
       onChanged: onChanged,
 
+
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(34.0),

@@ -1,6 +1,8 @@
+import 'package:feedapp/Data/services/function/auth_functions.dart';
 import 'package:feedapp/ui/screens/price_change_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/client_list_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/enter_sell_info.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/appbar_logo.dart';
@@ -17,6 +19,7 @@ class EmployeeDashboard extends StatefulWidget {
 class _EmployeeDashboardState extends State<EmployeeDashboard> {
   late double height;
   late double width;
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -28,38 +31,60 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
         title: const Text("Employee Dashboard"),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const LogInScreen()), (route) => false);
-          }, icon: const Icon(Icons.logout)),
+          IconButton(
+              onPressed: () async{
+                await FirebaseAuth.instance.signOut();
+                LogInScreen.role = '';
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LogInScreen()),
+                    (route) => false);
+              },
+              icon: const Icon(Icons.logout)),
         ],
       ),
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: width * 0.05),
+        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
         child: Column(
           children: [
-
             SizedBox(
               height: height * 0.08,
             ),
-            DashboardButton(text: 'দাম পরিবর্তন', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const PriceChangeScreen()));
-
-            },),
+            DashboardButton(
+              text: 'দাম পরিবর্তন',
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PriceChangeScreen()));
+              },
+            ),
             SizedBox(
               height: height * 0.08,
             ),
-            DashboardButton(text: 'বেচা-কেনার তথ্য', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnterSellInfoScreen()));
-
-            },),
+            DashboardButton(
+              text: 'বেচা-কেনার তথ্য',
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EnterSellInfoScreen()));
+              },
+            ),
             SizedBox(
               height: height * 0.08,
             ),
-            DashboardButton(text: 'ক্রেতার তথ্য', onTap: () {
-              //  Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const ClientListScreen()));
-
-            },),
+            DashboardButton(
+              text: 'ক্রেতার তথ্য',
+              onTap: () {
+                //  Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ClientListScreen()));
+              },
+            ),
           ],
         ),
       ),

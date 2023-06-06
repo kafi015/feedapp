@@ -3,8 +3,10 @@ import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/screens/price_change_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/client_list_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/enter_sell_info.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../Data/services/function/auth_functions.dart';
 import '../widgets/appbar_logo.dart';
 import '../widgets/dashboard_button.dart';
 
@@ -30,44 +32,73 @@ class _AdminDashboardState extends State<AdminDashboard> {
         title: const Text("Admin Dashboard"),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const LogInScreen()), (route) => false);
-          }, icon: const Icon(Icons.logout)),
+          IconButton(
+              onPressed: () async{
+                await FirebaseAuth.instance.signOut();
+                LogInScreen.role = '';
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LogInScreen()),
+                    (route) => false);
+              },
+              icon: const Icon(Icons.logout)),
         ],
       ),
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: width * 0.05),
+        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
         child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(
                 height: height * 0.08,
               ),
-              DashboardButton(text: 'Adminstrator', onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const AdminstratorScreen()));
-              },),
+              DashboardButton(
+                text: 'Adminstrator',
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AdminstratorScreen()));
+                },
+              ),
               SizedBox(
                 height: height * 0.08,
               ),
-              DashboardButton(text: 'দাম পরিবর্তন', onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const PriceChangeScreen()));
-
-              },),
+              DashboardButton(
+                text: 'দাম পরিবর্তন',
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PriceChangeScreen()));
+                },
+              ),
               SizedBox(
                 height: height * 0.08,
               ),
-              DashboardButton(text: 'বেচা-কেনার তথ্য', onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const EnterSellInfoScreen()));
-
-              },),
+              DashboardButton(
+                text: 'বেচা-কেনার তথ্য',
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EnterSellInfoScreen()));
+                },
+              ),
               SizedBox(
                 height: height * 0.08,
               ),
-              DashboardButton(text: 'ক্রেতার তথ্য', onTap: () {
-              //  Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const ClientListScreen()));
-
-              },),
+              DashboardButton(
+                text: 'ক্রেতার তথ্য',
+                onTap: () {
+                  //  Navigator.push(context, MaterialPageRoute(builder: (context)=> const LogInScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ClientListScreen()));
+                },
+              ),
             ],
           ),
         ),
@@ -75,5 +106,3 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 }
-
-

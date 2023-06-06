@@ -1,4 +1,6 @@
+import 'package:feedapp/Data/number.dart';
 import 'package:feedapp/ui/screens/forgot_varification.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../Data/network_utils.dart';
@@ -32,10 +34,10 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
   }
 
   Future<void> getUserInfo() async {
-
     try {
       final respone = await NetworkUtils().getMethod(Urls.userInfoUrl);
-      //print(respone);
+
+      // print(respone);
       if (respone != null) {
         userList = respone;
       } else {}
@@ -44,10 +46,49 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
     }
   }
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  phoneAuth(String userId) {
+    _auth.verifyPhoneNumber(
+      phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
+        timeout: const Duration(seconds: 120),
+        verificationCompleted: (PhoneAuthCredential credential) async{
+        // var result = await _auth.signInWithCredential(credential);
+        // User? user = result.user;
+        // if(user != null)
+        //   {
+        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotVarification(id: '')));
+        //   }
+
+        },
+        verificationFailed: (FirebaseAuthException exception)
+        {
+         // print(exception);
+        },
+        codeSent: (String varificationId, int? resendToken){
+        ForgotVarification.verifyId = varificationId;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ForgotVarification(id: userId,)));
+        },
+        codeAutoRetrievalTimeout: (String varificationId){
+
+    },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
+    height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -78,7 +119,7 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
                 Center(
                   child: Image.asset(
                     "assets/forgot_password.png",
-                    scale: height * .002,
+                    scale: height * .004,
                   ),
                 ),
                 SizedBox(
@@ -106,21 +147,25 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
                 SizedBox(
                   height: height * .04,
                 ),
-                AppTextFormField(
-                    controller: mobileETController,
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return "Enter your mobile number";
-                      }
-                      if (value!.length < 11) {
-                        return "Mobile number must be 11 digit";
-                      }
-                      if (value.length > 11) {
-                        return "Mobile number must be 11 digit";
-                      }
-                      return null;
-                    },
-                    hintText: "Enter the phone number"),
+                SizedBox(
+                  height: height * 0.08,
+                  child: AppTextFormField(
+                      controller: mobileETController,
+                      keyBoardType: TextInputType.phone,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return "Enter your mobile number";
+                        }
+                        if (value!.length < 11) {
+                          return "Mobile number must be 11 digit";
+                        }
+                        if (value.length > 11) {
+                          return "Mobile number must be 11 digit";
+                        }
+                        return null;
+                      },
+                      hintText: "Enter the phone number"),
+                ),
                 SizedBox(
                   height: height * .1,
                 ),
@@ -130,36 +175,29 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
                   buttonColor: Colors.blue,
                   onTap: () {
 
-                    if (_formKey.currentState!.validate())
-                      {
-                        if(userList.isNotEmpty)
-                          {
-                            for(var item in userList)
-                              {
-                                if(mobileETController.text == item['number'])
-                                  {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>  ForgotVarification(mobileNumber: mobileETController.text,)));
-                                    isNumberExist = true;
-                                    break;
-                                  }
-                              }
-                            if(!isNumberExist)
-                              {
-                                showSnackBarMessage(
-                                    context, "Number doesn't exist.", Colors.red);
-                              }
 
+                    if (_formKey.currentState!.validate()) {
+                      if (userList.isNotEmpty) {
+                        for (var item in userList) {
+                          if (mobileETController.text == item['number']) {
+
+                            phoneAuth(item['_id']);
+
+                            isNumberExist = true;
+                            break;
                           }
-                        else {
+                        }
+                        if (!isNumberExist) {
                           showSnackBarMessage(
-                              context, "Please Check your internet connection", Colors.red);
+                              context, "Number doesn't exist.", Colors.red);
                         }
                       }
-
-
+                      else {
+                        showSnackBarMessage(
+                            context, "Please Check your internet connection",
+                            Colors.red);
+                      }
+                    }
                   },
                 ),
               ],

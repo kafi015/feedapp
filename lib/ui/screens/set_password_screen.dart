@@ -10,9 +10,9 @@ import '../widgets/app_textformfield.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
 class SetPasswordScreen extends StatefulWidget {
-  const SetPasswordScreen({Key? key, required this.mobileNumber}) : super(key: key);
+  const SetPasswordScreen({Key? key, required this.id}) : super(key: key);
 
-  final String mobileNumber;
+  final String id;
 
   @override
   State<SetPasswordScreen> createState() => _SetPasswordScreenState();
@@ -21,7 +21,7 @@ class SetPasswordScreen extends StatefulWidget {
 class _SetPasswordScreenState extends State<SetPasswordScreen> {
   late double height;
   late double width;
-  String mobileNumber = '';
+  String _id = '';
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController passETController = TextEditingController();
   TextEditingController confirmPassETController = TextEditingController();
@@ -30,12 +30,12 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    mobileNumber = widget.mobileNumber;
+    _id = widget.id;
   }
 
   Future<void> updatePasword(String pass) async {
 
-    final response = await NetworkUtils().updateMethode(Urls.updateUserPassInfo(mobileNumber), body: {
+    final response = await NetworkUtils().updateMethode(Urls.updateUserPassInfo(_id), body: {
       "password": pass
     });
 
@@ -79,7 +79,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 Center(
                   child: Image.asset(
                     "assets/varification.png",
-                    scale:  height* .002,
+                    scale:  height* .004,
                   ),
                 ),
                 SizedBox(
@@ -98,18 +98,21 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                  SizedBox(
                   height:  height* .01,
                 ),
-                AppTextFormField(
-                    controller: passETController,
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return "Enter password more than 6 letter";
-                      }
-                      if ((value?.length ?? 0) < 6) {
-                        return "Enter password more than 6 letter";
-                      }
-                      return null;
-                    },
-                    hintText: "New Password"),
+                SizedBox(
+                  height: height * 0.08,
+                  child: AppTextFormField(
+                      controller: passETController,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return "Enter password more than 6 letter";
+                        }
+                        if ((value?.length ?? 0) < 6) {
+                          return "Enter password more than 6 letter";
+                        }
+                        return null;
+                      },
+                      hintText: "New Password"),
+                ),
 
                  SizedBox(
                   height:  height* .04,
@@ -128,19 +131,22 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                  SizedBox(
                   height:  height* .01,
                 ),
-                AppTextFormField(
-                    controller: confirmPassETController,
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return "Enter password more than 6 letter";
-                      }
-                      if (passETController.text !=
-                          confirmPassETController.text) {
-                        return "Password does not match!";
-                      }
-                      return null;
-                    },
-                    hintText: "Confirm Password"),
+                SizedBox(
+                  height: height * 0.08,
+                  child: AppTextFormField(
+                      controller: confirmPassETController,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return "Enter password more than 6 letter";
+                        }
+                        if (passETController.text !=
+                            confirmPassETController.text) {
+                          return "Password does not match!";
+                        }
+                        return null;
+                      },
+                      hintText: "Confirm Password"),
+                ),
 
                  SizedBox(
                   height:  height* .12,

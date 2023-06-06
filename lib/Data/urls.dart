@@ -11,7 +11,7 @@ class Urls {
   static String updateCustomerInfo(String customerId) =>
       '$baseUrl/singleDetails/$customerId';
 
-  static String updateUserPassInfo(String mobileNumber) =>
-      '$baseUrl/singleDetails/$mobileNumber';
+  static String updateUserPassInfo(String id) =>
+      '$baseUrl/singleUser/$id';
 
 }

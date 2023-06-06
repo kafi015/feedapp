@@ -37,30 +37,32 @@ class _AdminstratorScreenState extends State<AdminstratorScreen> {
       ),
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: width * 0.05),
-        child: Column(
-          children: [
-            SizedBox(
-              height: height * 0.08,
-            ),
-            DashboardButton(text: 'দাম পরিবর্তন', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const PriceChangeScreen()));
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: height * 0.08,
+              ),
+              DashboardButton(text: 'দাম পরিবর্তন', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const PriceChangeScreen()));
 
-            },),
-            SizedBox(
-              height: height * 0.08,
-            ),
-            DashboardButton(text: 'বেচা-কেনার তথ্য', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const SellInfoDueCheckScreen()));
-            },),
-            SizedBox(
-              height: height * 0.4,
-            ),
-            AppElevatedButton(text: "Back to Home", textColor: Colors.white, buttonColor: Colors.blue, onTap: (){
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const AdminDashboard()), (route) => false);
+              },),
+              SizedBox(
+                height: height * 0.08,
+              ),
+              DashboardButton(text: 'বেচা-কেনার তথ্য', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const SellInfoDueCheckScreen()));
+              },),
+              SizedBox(
+                height: height * 0.3,
+              ),
+              AppElevatedButton(text: "Back to Home", textColor: Colors.white, buttonColor: Colors.blue, onTap: (){
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const AdminDashboard()), (route) => false);
 
-            }),
+              }),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

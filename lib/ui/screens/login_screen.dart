@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feedapp/ui/screens/admin_dashboard.dart';
 import 'package:feedapp/ui/screens/forgot_password_screen.dart';
 import 'package:feedapp/ui/screens/register_screen.dart';
+import 'package:feedapp/ui/screens/splash_screen.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
-
 import '../../Data/network_utils.dart';
+import '../../Data/services/function/auth_functions.dart';
 import '../../Data/urls.dart';
 import '../utils/snakbar_message.dart';
 import '../widgets/appbar_home_icon_button.dart';
@@ -16,7 +18,7 @@ const List<String> list = <String>['Admin', 'Employee'];
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
-
+  static String role = '';
   @override
   State<LogInScreen> createState() => _LogInScreenState();
 }
@@ -63,7 +65,11 @@ class _LogInScreenState extends State<LogInScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: const AppBarHomeIconButton(),
+          leading: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const SplashScreen()));
+              },
+              child: const Icon(Icons.home)),
           title: const Text("LogIn"),
           centerTitle: true,
           actions: [
@@ -84,7 +90,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   Center(
                     child: Image.asset(
                       "assets/login.png",
-                      scale: height * 0.003,
+                      scale: height * 0.004,
                     ),
                   ),
                   SizedBox(
@@ -138,39 +144,65 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: height * .02,
+                    height: height * .01,
                   ),
-                  AppTextFormField(
-                      controller: mobileETController,
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return "Enter your mobile number";
-                        }
-                        if (value!.length < 11) {
-                          return "Mobile number must be 11 digit";
-                        }
-                        if (value.length > 11) {
-                          return "Mobile number must be 11 digit";
-                        }
-                        return null;
-                      },
-                      hintText: "Enter your phone number"),
+                  SizedBox(
+                    height: height * 0.08,
+                    child: AppTextFormField(
+                        controller: mobileETController,
+                        keyBoardType: TextInputType.phone,
+                        onChanged: (value){
+                          FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+                          firebaseFirestore.collection('users').get().then((doucment)
+                          {
+                            for(var docs in doucment.docs)
+                            {
+                              if(docs.get('mobile') == value)
+                              {
+                                LogInScreen.role = docs.get('role');
+                                setState(() {});
+                                print("role ajsdfnlaksdnfakjsdbnajjsdbfakjsdfnlaksdnfiajsdlasjkdnflkasdnflakjsdjfnalskjdnfaidff");
+                                print(LogInScreen.role);
+                                break;
+                              }
+                            }
+                          }
+                          );
+                        },
+                        // validator: (value) {
+                        //   if (value?.isEmpty ?? true) {
+                        //     return "Enter your mobile number";
+                        //   }
+                        //   if (value!.length < 11) {
+                        //     return "Mobile number must be 11 digit";
+                        //   }
+                        //   if (value.length > 11) {
+                        //     return "Mobile number must be 11 digit";
+                        //   }
+                        //   return null;
+                        // },
+                        hintText: "Enter your phone number"),
+                  ),
                   SizedBox(
                     height: height * .02,
                   ),
-                  AppTextFormField(
-                      controller: passETController,
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return "Enter password more than 6 letter";
-                        }
-                        if ((value?.length ?? 0) < 6) {
-                          return "Enter password more than 6 letter";
-                        }
-                        return null;
-                      },
-                      obscure: true,
-                      hintText: "Password"),
+                  SizedBox(
+                    height: height * 0.08,
+                    child: AppTextFormField(
+                        controller: passETController,
+                        keyBoardType: TextInputType.phone,
+                        validator: (value) {
+                          if (value?.isEmpty ?? true) {
+                            return "Enter password more than 6 letter";
+                          }
+                          if ((value?.length ?? 0) < 6) {
+                            return "Enter password more than 6 letter";
+                          }
+                          return null;
+                        },
+                        obscure: true,
+                        hintText: "Password"),
+                  ),
                   SizedBox(
                     height: height * .04,
                   ),
@@ -192,61 +224,31 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: height * .04,
+                    height: height * .03,
                   ),
                   AppElevatedButton(
+                    bottomPadding: height * 0.01,
+                    topPadding: height * 0.01,
                     text: "Login",
                     textColor: Colors.white,
                     buttonColor: Colors.blue,
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
-                        if (userList.isNotEmpty) {
-                          for (var item in userList) {
-                            if ((_dropDownValue == item['role'] &&
-                                    _dropDownValue == "Admin") &&
-                                mobileETController.text == item['number'] &&
-                                passETController.text == item['password']) {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AdminDashboard()),
-                                  (route) => false);
-                              isLogIn = true;
-                              break;
-                            } else if ((_dropDownValue == item['role'] &&
-                                    _dropDownValue == "Employee") &&
-                                mobileETController.text == item['number'] &&
-                                passETController.text == item['password']) {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const EmployeeDashboard()),
-                                  (route) => false);
-                              isLogIn = true;
-                              break;
-                            }
+
+                        if(LogInScreen.role == _dropDownValue)
+                          {
+                            AuthServices.signinUser(mobileETController.text, passETController.text,_dropDownValue, context);
+                          }
+                        else
+                          {
+                            showSnackBarMessage(context, 'You are not $_dropDownValue',Colors.red);
                           }
 
-                          if (isLogIn) {
-                            showSnackBarMessage(
-                                context, "LogIn Successful", Colors.blue);
-                          } else {
-                            showSnackBarMessage(
-                                context,
-                                "Incorrect role, mobile number or password",
-                                Colors.red);
-                          }
-                        } else {
-                          showSnackBarMessage(
-                              context, "Please Check your internet connection");
-                        }
                       }
                     },
                   ),
                   SizedBox(
-                    height: height * .07,
+                    height: height * .05,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -269,6 +271,9 @@ class _LogInScreenState extends State<LogInScreen> {
                                 color: Colors.blue, fontSize: height * 0.023),
                           )),
                     ],
+                  ),
+                  SizedBox(
+                    height: height * .02,
                   ),
                 ],
               ),

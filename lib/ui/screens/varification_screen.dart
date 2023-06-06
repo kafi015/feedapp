@@ -4,6 +4,7 @@ import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../Data/services/function/auth_functions.dart';
 import '../../Data/urls.dart';
 import '../utils/snakbar_message.dart';
 import '../widgets/appbar_home_icon_button.dart';
@@ -69,7 +70,7 @@ class _VarificationScreenState extends State<VarificationScreen> {
               ),
               Image.asset(
                 "assets/varification.png",
-                scale: height * .002,
+                scale: height * .004,
               ),
               SizedBox(
                 height: height * .06,
@@ -172,34 +173,8 @@ class _VarificationScreenState extends State<VarificationScreen> {
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
                 onTap: () async{
-
-                  final result = await NetworkUtils()
-                      .postMethod(Urls.userInfoUrl, body: {
-                    "name": name,
-                    "email": "",
-                    "role": role,
-                    "number": mobile,
-                    "password": pass
-                  });
-
-                  if(result != null)
-                    {
-                      showSnackBarMessage(context,
-                          "Registration Succefull!", Colors.blue);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AccomplishScreen()));
-                    }
-                  else
-                    {
-                      showSnackBarMessage(
-                          context,
-                          "Ragistration Failed!",
-                          Colors.red);
-                    }
-
-
+                  AuthServices.signupUser(
+                      role, name, mobile, pass, context);
                 },
               ),
             ],
