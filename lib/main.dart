@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'Data/services/function/auth_functions.dart';
 
 Future<void> main()
 async {
@@ -52,18 +51,18 @@ class _MyAppState extends State<MyApp> {
 
             if(LogInScreen.role == 'Admin')
               {
-                return AdminDashboard();
+                return const AdminDashboard();
               }
             else if(LogInScreen.role == 'Employee')
             {
-              return EmployeeDashboard();
+              return const EmployeeDashboard();
             }
             else
               {
-                return SplashScreen();
+                return const SplashScreen();
               }
           } else {
-            return SplashScreen();
+            return const SplashScreen();
           }
         },
       ),

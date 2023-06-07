@@ -1,4 +1,3 @@
-import 'package:feedapp/Data/services/function/auth_functions.dart';
 import 'package:feedapp/ui/screens/price_change_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/client_list_screen.dart';
 import 'package:feedapp/ui/screens/sell%20info%20screen/enter_sell_info.dart';

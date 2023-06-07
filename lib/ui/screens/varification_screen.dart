@@ -1,12 +1,11 @@
-import 'package:feedapp/Data/network_utils.dart';
-import 'package:feedapp/ui/screens/accomplish_screen.dart';
+
+import 'package:feedapp/Data/number.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../Data/services/function/auth_functions.dart';
-import '../../Data/urls.dart';
 import '../utils/snakbar_message.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
@@ -35,6 +34,8 @@ class _VarificationScreenState extends State<VarificationScreen> {
   String smsCode = "";
   FirebaseAuth auth = FirebaseAuth.instance;
 
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -45,10 +46,14 @@ class _VarificationScreenState extends State<VarificationScreen> {
     pass = widget.pass;
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -98,7 +103,7 @@ class _VarificationScreenState extends State<VarificationScreen> {
                     style: TextStyle(fontSize: height * .023),
                   ),
                   Text(
-                    " +8801234567890",
+                    MobileNumber.countryCode + MobileNumber.mobileNumber,
                     style:
                         TextStyle(color: Colors.blue, fontSize: height * .023),
                   ),
@@ -110,6 +115,7 @@ class _VarificationScreenState extends State<VarificationScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * .01),
                 child: PinCodeTextField(
+                  keyboardType: TextInputType.number,
                   cursorColor: Colors.blue,
                   length: 6,
                   obscureText: false,
@@ -147,7 +153,7 @@ class _VarificationScreenState extends State<VarificationScreen> {
                 height: height * .03,
               ),
               Text(
-                "00:120 Sec",
+                "120",
                 style: TextStyle(
                   fontSize: height * .022,
                   color: Colors.red,

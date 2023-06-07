@@ -1,5 +1,5 @@
 import 'package:feedapp/Data/number.dart';
-import 'package:feedapp/ui/screens/set_password_screen.dart';
+import 'package:feedapp/ui/screens/pass_change_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -21,7 +21,6 @@ class ForgotVarification extends StatefulWidget {
 class _ForgotVarificationState extends State<ForgotVarification> {
   late double height;
   late double width;
-  String _email = '';
   FirebaseAuth auth = FirebaseAuth.instance;
   String smsCode = "";
 
@@ -29,7 +28,6 @@ class _ForgotVarificationState extends State<ForgotVarification> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _email = widget.email;
   }
 
   @override
@@ -167,22 +165,21 @@ class _ForgotVarificationState extends State<ForgotVarification> {
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
                 onTap: () async {
-                  try{
-                    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                        verificationId: ForgotVarification.verifyId,
-                        smsCode: smsCode);
+                  try {
+                    PhoneAuthCredential credential =
+                        PhoneAuthProvider.credential(
+                            verificationId: ForgotVarification.verifyId,
+                            smsCode: smsCode);
                     await auth.signInWithCredential(credential);
+
+
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SetPasswordScreen(
-                              email: _email,
-                            )));
-                  }catch(e)
-                  {
-                    showSnackBarMessage(
-                        context, "Wrong OTP",
-                        Colors.red);
+                            builder: (context) => const PassChangeMessage()));
+                  } catch (e) {
+                    showSnackBarMessage(context, "Wrong OTP", Colors.red);
                   }
                 },
               ),

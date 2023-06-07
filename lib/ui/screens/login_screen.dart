@@ -25,7 +25,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   bool isLogIn = false;
 
-  TextEditingController mobileETController = TextEditingController();
+  TextEditingController emailETController = TextEditingController();
   TextEditingController passETController = TextEditingController();
 
   List<dynamic> userList = [];
@@ -126,8 +126,8 @@ class _LogInScreenState extends State<LogInScreen> {
                   SizedBox(
                     height: height * 0.08,
                     child: AppTextFormField(
-                        controller: mobileETController,
-                        keyBoardType: TextInputType.phone,
+                        controller: emailETController,
+                        keyBoardType: TextInputType.emailAddress,
                         onChanged: (value){
                           FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
                           firebaseFirestore.collection('users').get().then((doucment)
@@ -163,7 +163,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         //   }
                         //   return null;
                         // },
-                        hintText: "Enter your phone number"),
+                        hintText: "Enter your email"),
                   ),
                   SizedBox(
                     height: height * .02,
@@ -172,7 +172,6 @@ class _LogInScreenState extends State<LogInScreen> {
                     height: height * 0.08,
                     child: AppTextFormField(
                         controller: passETController,
-                        keyBoardType: TextInputType.phone,
                         validator: (value) {
                           if (value?.isEmpty ?? true) {
                             return "Enter password more than 6 letter";
@@ -219,7 +218,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
                         if(LogInScreen.role == _dropDownValue)
                           {
-                            AuthServices.signinUser(mobileETController.text, passETController.text,_dropDownValue, context);
+                            AuthServices.signinUser(emailETController.text, passETController.text,_dropDownValue, context);
                           }
                         else
                           {

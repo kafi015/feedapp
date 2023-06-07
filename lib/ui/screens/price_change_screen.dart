@@ -1,4 +1,3 @@
-
 import 'package:feedapp/Data/network_utils.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +42,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
       } else {
         List<dynamic> list = [];
         _foundCustomer = list;
-        showSnackBarMessage(context, "Unable to fetch data");
+        showSnackBarMessage(context, "Unable to fetch data", Colors.red);
       }
     } catch (e) {
       //print(e);
@@ -53,29 +52,27 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     setState(() {});
   }
 
-  void _runFilter(String value)
-  {
+  void _runFilter(String value) {
     List<dynamic> result = [];
-    if(value.isEmpty)
-    {
+    if (value.isEmpty) {
       result = _allCustomer;
-    }
-    else
-    {
-      result = _allCustomer.where((customer) => customer['name'].toString().toLowerCase().contains(value.toLowerCase())).toList();
+    } else {
+      result = _allCustomer
+          .where((customer) => customer['name']
+              .toString()
+              .toLowerCase()
+              .contains(value.toLowerCase()))
+          .toList();
     }
     setState(() {
       _foundCustomer = result;
     });
   }
 
-
   Future<void> updatePrice(String price, String sId) async {
-    NetworkUtils()
-        .updateMethode('${Urls.baseUrl}/updateProduct/$sId', body: {
+    NetworkUtils().updateMethode('${Urls.baseUrl}/updateProduct/$sId', body: {
       'price': price,
     });
-
 
     await Future.delayed(const Duration(seconds: 1));
 
@@ -200,10 +197,10 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                 child: CircularProgressIndicator(),
               )
             : RefreshIndicator(
-              onRefresh: () async{
-                await getPrizeInfo();
-              },
-              child: ListView.builder(
+                onRefresh: () async {
+                  await getPrizeInfo();
+                },
+                child: ListView.builder(
                   itemCount: _foundCustomer.length,
                   itemBuilder: (context, index) {
                     return Card(
@@ -242,7 +239,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                     );
                   },
                 ),
-            ),
+              ),
       ),
     );
   }

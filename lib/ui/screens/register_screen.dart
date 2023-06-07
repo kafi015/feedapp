@@ -30,10 +30,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  phoneAuth() {
+
+   phoneAuth() {
     _auth.verifyPhoneNumber(
       phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
-      verificationCompleted: (PhoneAuthCredential credential) async{
+      verificationCompleted: (PhoneAuthCredential credential){
         // var result = await _auth.signInWithCredential(credential);
         // User? user = result.user;
         // if(user != null)

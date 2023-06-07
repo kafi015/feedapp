@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feedapp/ui/screens/pass_change_message.dart';
 import 'package:feedapp/ui/widgets/appbar_logo.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../Data/network_utils.dart';
@@ -163,20 +162,29 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
 
                     if(_formKey.currentState!.validate())
                       {
-                        FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-                        firebaseFirestore.collection('users').get().then((doucment)
-                        {
-                          for(var docs in doucment.docs)
-                          {
-                            if(docs.get('mobile') == _email)
+                        try
                             {
-                              setState(() {});
-                              break;
-                            }
-                          }
-                        }
-                        );
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const PassChangeMessage()));
+                              FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+                              firebaseFirestore.collection('users').get().then((doucment)
+                              {
+                                for(var docs in doucment.docs)
+                                {
+                                  if(docs.get('mobile') == _email)
+                                  {
+                                    firebaseFirestore.collection('users').doc(docs.id.toString()).update({
+                                      'pass' : passETController.text,
+                                    });
+
+                                    break;
+                                  }
+                                }
+                              }
+                              );
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>const PassChangeMessage()));
+                            }catch(e)
+                    {
+                      showSnackBarMessage(context, 'Network Error!',Colors.red);
+                    }
 
                       }
 

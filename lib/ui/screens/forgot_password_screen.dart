@@ -1,10 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feedapp/Data/number.dart';
 import 'package:feedapp/ui/screens/forgot_varification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../Data/network_utils.dart';
-import '../../Data/urls.dart';
 import '../utils/snakbar_message.dart';
 import '../widgets/app_elevatedbutton.dart';
 import '../widgets/app_textformfield.dart';
@@ -26,50 +25,40 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
   List<dynamic> userList = [];
   bool isNumberExist = false;
 
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   phoneAuth(String email) {
     _auth.verifyPhoneNumber(
       phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
-        timeout: const Duration(seconds: 120),
-        verificationCompleted: (PhoneAuthCredential credential) async{
+      timeout: const Duration(seconds: 120),
+      verificationCompleted: (PhoneAuthCredential credential) async {
         // var result = await _auth.signInWithCredential(credential);
         // User? user = result.user;
         // if(user != null)
         //   {
         //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotVarification(id: '')));
         //   }
-
-        },
-        verificationFailed: (FirebaseAuthException exception)
-        {
-         // print(exception);
-        },
-        codeSent: (String varificationId, int? resendToken){
+      },
+      verificationFailed: (FirebaseAuthException exception) {
+        // print(exception);
+      },
+      codeSent: (String varificationId, int? resendToken) {
         ForgotVarification.verifyId = varificationId;
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      ForgotVarification(email: email,)));
-        },
-        codeAutoRetrievalTimeout: (String varificationId){
-
-    },
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ForgotVarification(
+                      email: email,
+                    )));
+      },
+      codeAutoRetrievalTimeout: (String varificationId) {},
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -77,7 +66,6 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
         title: const Text("Forget Password ?"),
         centerTitle: true,
         actions: [
-
           InkWell(
             onTap: () {
               Navigator.pop(context);
@@ -119,7 +107,7 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
                   height: height * .04,
                 ),
                 Text(
-                  "Don’t worry ! It happens. Please enter the phone number we will send the OTP in this phone number.",
+                  "Don’t worry ! It happens. Please enter the email we will send the link in this email.",
                   style: TextStyle(
                     fontSize: height * .021,
                     color: Colors.black,
@@ -158,23 +146,49 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
                   height: height * .1,
                 ),
                 AppElevatedButton(
-                  text: "Continue",
+                  text: "Submit",
                   textColor: Colors.white,
                   buttonColor: Colors.blue,
-                  onTap: () async{
+                  onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
-                        await FirebaseAuth.instance.sendPasswordResetEmail(email: emailETController.text);
-                        phoneAuth(emailETController.text);
+                        bool exits = true;
+                        FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+                        firebaseFirestore.collection('users').get().then((doucment)
+                        async {
+                          for(var docs in doucment.docs)
+                          {
+                            if(docs.get('mobile') == emailETController.text)
+                            {
+                              exits = false;
 
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'user-not-found') {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Email doesn't exist!")));
+                              break;
+                            }
+                          }
+                          if (exits){
+                            showSnackBarMessage(context, "Email doesn't exist!",Colors.red);
+                          }
+                          else {
+                          //showSnackBarMessage(context, "Email exist!",Colors.red);
+                            await FirebaseAuth.instance
+                                .sendPasswordResetEmail(email: emailETController.text)
+                                .then((value) {
+                              showSnackBarMessage(
+                                  context, 'Email Send Successfully!', Colors.blue);
+                            }).onError((error, stackTrace) {
+                              showSnackBarMessage(context, 'Email Send $error!');
+                            });
+                          }
+                        }
+                        );
+
+
+
+                      } catch (e) {
+                       showSnackBarMessage(context, '$e',Colors.red);
                         }
                       }
                     }
-                  },
                 ),
               ],
             ),
