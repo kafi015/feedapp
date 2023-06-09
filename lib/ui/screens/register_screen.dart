@@ -30,24 +30,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
-   phoneAuth() {
+  phoneAuth() {
     _auth.verifyPhoneNumber(
       phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
-      verificationCompleted: (PhoneAuthCredential credential){
+      verificationCompleted: (PhoneAuthCredential credential) {
         // var result = await _auth.signInWithCredential(credential);
         // User? user = result.user;
         // if(user != null)
         //   {
         //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotVarification(id: '')));
         //   }
-
       },
-      verificationFailed: (FirebaseAuthException exception)
-      {
+      timeout: const Duration(seconds: 120),
+      verificationFailed: (FirebaseAuthException exception) {
         // print(exception);
       },
-      codeSent: (String varificationId, int? resendToken){
+      codeSent: (String varificationId, int? resendToken) {
         VarificationScreen.verifyId = varificationId;
         Navigator.push(
             context,
@@ -58,9 +56,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     mobile: emailETController.text,
                     pass: passETController.text)));
       },
-      codeAutoRetrievalTimeout: (String varificationId){
-
-      },
+      codeAutoRetrievalTimeout: (String varificationId) {},
     );
   }
 
@@ -150,7 +146,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 SizedBox(
                   height: height * 0.08,
-
                   child: AppTextFormField(
                     controller: nameETController,
                     hintText: "Enter your name",
@@ -167,7 +162,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 SizedBox(
                   height: height * 0.08,
-
                   child: AppTextFormField(
                       controller: emailETController,
                       keyBoardType: TextInputType.emailAddress,
@@ -197,7 +191,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 SizedBox(
                   height: height * 0.08,
-
                   child: AppTextFormField(
                     controller: passETController,
                     hintText: "Password",
@@ -217,7 +210,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 SizedBox(
                   height: height * 0.08,
-
                   child: AppTextFormField(
                       controller: confirmPassETController,
                       validator: (value) {
@@ -247,7 +239,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   },
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: height * 0.05,bottom: height * 0.05),
+                  margin: EdgeInsets.only(
+                      top: height * 0.05, bottom: height * 0.05),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

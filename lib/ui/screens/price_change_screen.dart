@@ -86,7 +86,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
-
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     myAlertDialog(context, String productId) {
       return showDialog(
           context: context,
@@ -99,10 +99,19 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                 "মূল্য পরিবর্তন ",
                 style: TextStyle(color: Colors.blue),
               ),
-              content: AppTextFormField(
-                controller: priceChangeETController,
-                hintText: "",
-                keyBoardType: TextInputType.number,
+              content: Form(
+                key: formKey,
+                child: AppTextFormField(
+                  controller: priceChangeETController,
+                  hintText: "",
+                  keyBoardType: TextInputType.number,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return "Enter the prize";
+                    }
+                    return null;
+                  },
+                ),
               ),
               actions: [
                 Padding(
@@ -113,7 +122,11 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                       ),
                       onPressed: () {
                         setState(() {
-                          updatePrice(priceChangeETController.text, productId);
+                          if(formKey.currentState!.validate())
+                            {
+                              updatePrice(priceChangeETController.text, productId);
+                            }
+
                           // priceChangeETController.clear();
                           // Navigator.pop(context);
                           // getPrizeInfo();

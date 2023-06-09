@@ -1,3 +1,4 @@
+import 'dart:async';
 
 import 'package:feedapp/Data/number.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
@@ -10,14 +11,19 @@ import '../utils/snakbar_message.dart';
 import '../widgets/appbar_home_icon_button.dart';
 
 class VarificationScreen extends StatefulWidget {
-  const VarificationScreen({Key? key, required this.name, required this.mobile, required this.pass, required this.role}) : super(key: key);
+  const VarificationScreen(
+      {Key? key,
+      required this.name,
+      required this.mobile,
+      required this.pass,
+      required this.role})
+      : super(key: key);
 
   final String role;
   final String name;
   final String mobile;
   final String pass;
   static String verifyId = "";
-
 
   @override
   State<VarificationScreen> createState() => _VarificationScreenState();
@@ -27,14 +33,12 @@ class _VarificationScreenState extends State<VarificationScreen> {
   late double height;
   late double width;
 
-   String role = '';
-   String name = '';
-   String mobile = '';
-   String pass = '';
+  String role = '';
+  String name = '';
+  String mobile = '';
+  String pass = '';
   String smsCode = "";
   FirebaseAuth auth = FirebaseAuth.instance;
-
-
 
   @override
   void initState() {
@@ -44,10 +48,60 @@ class _VarificationScreenState extends State<VarificationScreen> {
     name = widget.name;
     mobile = widget.mobile;
     pass = widget.pass;
+    startTimer();
+  }
+
+  late Timer _timer;
+  int _start = 120;
+
+  void startTimer() {
+    _start = 120;
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  phoneAuth() {
+    _auth.verifyPhoneNumber(
+      phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
+      timeout: const Duration(seconds: 120),
+      verificationCompleted: (PhoneAuthCredential credential) {
+        // var result = await _auth.signInWithCredential(credential);
+        // User? user = result.user;
+        // if(user != null)
+        //   {
+        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotVarification(id: '')));
+        //   }
+      },
+      verificationFailed: (FirebaseAuthException exception) {
+        // print(exception);
+      },
+      codeSent: (String varificationId, int? resendToken) {
+        VarificationScreen.verifyId = varificationId;
+        startTimer();
+      },
+      codeAutoRetrievalTimeout: (String varificationId) {},
+    );
   }
 
 
-
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,9 +207,9 @@ class _VarificationScreenState extends State<VarificationScreen> {
                 height: height * .03,
               ),
               Text(
-                "120",
+                _start.toString(),
                 style: TextStyle(
-                  fontSize: height * .022,
+                  fontSize: height * .024,
                   color: Colors.red,
                 ),
               ),
@@ -169,13 +223,23 @@ class _VarificationScreenState extends State<VarificationScreen> {
                     "Don’t receive code ? ",
                     style: TextStyle(fontSize: height * .023),
                   ),
-                  InkWell(
-                      onTap: () {},
-                      child: Text(
-                        "Re-send",
-                        style: TextStyle(
-                            color: Colors.blue, fontSize: height * .023),
-                      )),
+                  _start > 0
+                      ? Text(
+                          'Re-send',
+                          style: TextStyle(
+                              color: Colors.grey, fontSize: height * .023),
+                        )
+                      : InkWell(
+                          onTap: () {
+                            setState(() {
+                              phoneAuth();
+                            });
+                          },
+                          child: Text(
+                            "Re-send",
+                            style: TextStyle(
+                                color: Colors.blue, fontSize: height * .023),
+                          )),
                 ],
               ),
               SizedBox(
@@ -185,22 +249,17 @@ class _VarificationScreenState extends State<VarificationScreen> {
                 text: "Submit",
                 textColor: Colors.white,
                 buttonColor: Colors.blue,
-                onTap: () async{
-                  try{
-                    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                        verificationId: VarificationScreen.verifyId,
-                        smsCode: smsCode);
+                onTap: () async {
+                  try {
+                    PhoneAuthCredential credential =
+                        PhoneAuthProvider.credential(
+                            verificationId: VarificationScreen.verifyId,
+                            smsCode: smsCode);
                     await auth.signInWithCredential(credential);
-                    AuthServices.signupUser(
-                        role, name, mobile, pass, context);
-
-                  }catch(e)
-                  {
-                    showSnackBarMessage(
-                        context, "Wrong OTP",
-                        Colors.red);
+                    AuthServices.signupUser(role, name, mobile, pass, context);
+                  } catch (e) {
+                    showSnackBarMessage(context, "Wrong OTP", Colors.red);
                   }
-
                 },
               ),
             ],

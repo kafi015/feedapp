@@ -28,16 +28,11 @@ class AuthServices {
               builder: (context) => const AccomplishScreen()));
 
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Password Provided is too weak')));
-      } else if (e.code == 'email-already-in-use') {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Email Provided already Exists')));
+      if (e.code == 'email-already-in-use') {
+       showSnackBarMessage(context, 'Email Provided already Exists',Colors.red);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
+      showSnackBarMessage(context, e.toString(),Colors.red);
     }
   }
 
