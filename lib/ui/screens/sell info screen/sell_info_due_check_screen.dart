@@ -109,7 +109,7 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
               child: inProgress
                   ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                       itemCount: _customerInfoModel.data?.length,
                       itemBuilder: (context, index) {
                         if (_customerInfoModel.data?[index].date == dateCompare) {

@@ -62,7 +62,7 @@ class _LogInScreenState extends State<LogInScreen> {
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: width * .05),
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Form(
               key: _formKey,
               child: Column(

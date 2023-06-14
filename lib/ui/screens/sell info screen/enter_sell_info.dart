@@ -61,7 +61,7 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Form(
           key: _formKey,
           child: Column(

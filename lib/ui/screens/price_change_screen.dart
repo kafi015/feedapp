@@ -164,10 +164,10 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
+                child: SizedBox(
                  height: 50,
                   child: Padding(
-                    padding: EdgeInsets.only(top: 5,bottom: 6),
+                    padding: const EdgeInsets.only(top: 5,bottom: 6),
                     child: TextFormField(
                       onChanged: (value) => _runFilter(value),
                       controller: searchETController,
@@ -217,7 +217,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                   await getPrizeInfo();
                 },
                 child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: _foundCustomer.length,
                   itemBuilder: (context, index) {
                     return Card(

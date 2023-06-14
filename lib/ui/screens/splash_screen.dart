@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: Container(
+        body: SizedBox(
           height: double.infinity,
           width: double.infinity,
           // decoration: const BoxDecoration(
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
               )),
               Align(
                 alignment: Alignment.centerRight,
-                child: Container(
+                child: SizedBox(
                   width: width * 0.65,
                   child: Image.asset(
                     "assets/splash/pen tool.png",
@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 left: 0,
                 top: height * 0.25,
                 child: RotationTransition(
-                  turns: AlwaysStoppedAnimation(0.5),
+                  turns: const AlwaysStoppedAnimation(0.5),
                   child: Image.asset(
                     "assets/splash/Ellipse 4.png",
                     scale: width*0.004,

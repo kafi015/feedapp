@@ -110,7 +110,7 @@ class _ClientListScreenState extends State<ClientListScreen> {
                   child: inProgress
                       ? const Center(child: CircularProgressIndicator())
                       : ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                       itemCount: _foundCustomer.length,
                           itemBuilder: (context, index) {
                                 return Padding(
