@@ -2,8 +2,10 @@ import 'package:feedapp/Data/network_utils.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:flutter/material.dart';
 import '../../Data/urls.dart';
+import '../../main.dart';
 import '../utils/snakbar_message.dart';
 import '../widgets/appbar_home_icon_button.dart';
+import '../widgets/back_button.dart';
 
 class PriceChangeScreen extends StatefulWidget {
   const PriceChangeScreen({Key? key}) : super(key: key);
@@ -42,7 +44,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
       } else {
         List<dynamic> list = [];
         _foundCustomer = list;
-        showSnackBarMessage(context, "Unable to fetch data", Colors.red);
+        showSnackBarMessage(MyApp.globalKey.currentContext!, "Unable to fetch data", Colors.red);
       }
     } catch (e) {
       //print(e);
@@ -77,8 +79,8 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     await Future.delayed(const Duration(seconds: 1));
 
     priceChangeETController.clear();
-    Navigator.of(context).pop();
-    showSnackBarMessage(context, "Price Updated Successfully");
+    Navigator.of(MyApp.globalKey.currentContext!).pop();
+    showSnackBarMessage(MyApp.globalKey.currentContext!, "Price Updated Successfully");
     getPrizeInfo();
   }
 
@@ -142,7 +144,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(200),
+        preferredSize: const Size.fromHeight(195),
         child: Container(
           color: Colors.blue,
           child: Column(
@@ -153,13 +155,8 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                 leading: const AppBarHomeIconButton(),
                 title: const Text("Price Change"),
                 centerTitle: true,
-                actions: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(Icons.arrow_back_ios),
-                  ),
+                actions: const [
+                  AppBackButton(),
                 ],
               ),
               const SizedBox(
@@ -167,19 +164,25 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: TextFormField(
-                  onChanged: (value) => _runFilter(value),
-                  controller: searchETController,
-                  decoration: InputDecoration(
-                    hintText: "Search",
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    suffixIcon: const Icon(Icons.search),
-                    suffixIconColor: Colors.blue,
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(34.0),
+                child: Container(
+                 height: 50,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 5,bottom: 6),
+                    child: TextFormField(
+                      onChanged: (value) => _runFilter(value),
+                      controller: searchETController,
+                      decoration: InputDecoration(
+                        hintText: "Search",
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        suffixIcon: const Icon(Icons.search),
+                        suffixIconColor: Colors.blue,
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -214,11 +217,13 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
                   await getPrizeInfo();
                 },
                 child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: _foundCustomer.length,
                   itemBuilder: (context, index) {
                     return Card(
                       margin: const EdgeInsets.only(top: 10, bottom: 10),
-                      elevation: 10,
+                      elevation: 8,
+                      shadowColor: Colors.blue,
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(34.0),
@@ -257,3 +262,4 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
     );
   }
 }
+

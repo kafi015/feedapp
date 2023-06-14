@@ -4,6 +4,7 @@ import 'package:feedapp/ui/screens/sell%20info%20screen/enter_sell_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import '../widgets/appbar_logo.dart';
 import '../widgets/dashboard_button.dart';
 import 'login_screen.dart';
@@ -36,7 +37,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
                 LogInScreen.role = '';
                 setState(() {});
                 Navigator.pushAndRemoveUntil(
-                    context,
+                    MyApp.globalKey.currentContext!,
                     MaterialPageRoute(
                         builder: (context) => const LogInScreen()),
                     (route) => false);

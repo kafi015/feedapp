@@ -14,6 +14,7 @@ const List<String> list = <String>['Admin', 'Employee'];
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
   static String role = '';
+
   @override
   State<LogInScreen> createState() => _LogInScreenState();
 }
@@ -32,7 +33,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
@@ -43,19 +43,26 @@ class _LogInScreenState extends State<LogInScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: InkWell(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const SplashScreen()));
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashScreen()));
               },
               child: const Icon(Icons.home)),
           title: const Text("LogIn"),
           centerTitle: true,
           actions: [
-            AppBarLogo(height: height),
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: AppBarLogo(height: height),
+            ),
           ],
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: width * .05),
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Form(
               key: _formKey,
               child: Column(
@@ -128,21 +135,21 @@ class _LogInScreenState extends State<LogInScreen> {
                     child: AppTextFormField(
                         controller: emailETController,
                         keyBoardType: TextInputType.emailAddress,
-                        onChanged: (value){
-                          FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-                          firebaseFirestore.collection('users').get().then((doucment)
-                          {
-                            for(var docs in doucment.docs)
-                            {
-                              if(docs.get('mobile') == value)
-                              {
+                        onChanged: (value) {
+                          FirebaseFirestore firebaseFirestore =
+                              FirebaseFirestore.instance;
+                          firebaseFirestore
+                              .collection('users')
+                              .get()
+                              .then((doucment) {
+                            for (var docs in doucment.docs) {
+                              if (docs.get('mobile') == value) {
                                 LogInScreen.role = docs.get('role');
                                 setState(() {});
                                 break;
                               }
                             }
-                          }
-                          );
+                          });
                         },
                         validator: (value) {
                           if (value!.isEmpty || !value.contains('@gmail.com')) {
@@ -208,23 +215,20 @@ class _LogInScreenState extends State<LogInScreen> {
                     height: height * .03,
                   ),
                   AppElevatedButton(
-                    bottomPadding: height * 0.01,
-                    topPadding: height * 0.01,
+                    bottomPadding: height * 0.018,
+                    topPadding: height * 0.018,
                     text: "Login",
                     textColor: Colors.white,
                     buttonColor: Colors.blue,
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
-
-                        if(LogInScreen.role == _dropDownValue)
-                          {
-                            AuthServices.signinUser(emailETController.text, passETController.text,_dropDownValue, context);
-                          }
-                        else
-                          {
-                            showSnackBarMessage(context, 'You are not $_dropDownValue',Colors.red);
-                          }
-
+                        if (LogInScreen.role == _dropDownValue) {
+                          AuthServices.signinUser(emailETController.text,
+                              passETController.text, _dropDownValue, context);
+                        } else {
+                          showSnackBarMessage(context,
+                              'This email is not exist in $_dropDownValue database', Colors.red);
+                        }
                       }
                     },
                   ),

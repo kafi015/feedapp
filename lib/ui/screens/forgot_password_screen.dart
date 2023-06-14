@@ -8,6 +8,7 @@ import '../utils/snakbar_message.dart';
 import '../widgets/app_elevatedbutton.dart';
 import '../widgets/app_textformfield.dart';
 import '../widgets/appbar_logo.dart';
+import '../widgets/back_button.dart';
 
 class ForgotPasswprdScreen extends StatefulWidget {
   const ForgotPasswprdScreen({Key? key}) : super(key: key);
@@ -65,13 +66,8 @@ class _ForgotPasswprdScreenState extends State<ForgotPasswprdScreen> {
         leading: AppBarLogo(height: height),
         title: const Text("Forget Password ?"),
         centerTitle: true,
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back_ios),
-          ),
+        actions: const [
+          AppBackButton(),
         ],
       ),
       body: Padding(

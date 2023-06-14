@@ -17,12 +17,15 @@ class AppElevatedButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
             backgroundColor: buttonColor,
             padding:  EdgeInsets.only(bottom: bottomPadding ?? 10,top: topPadding ?? 10)),
         child: Text(text,style: TextStyle(color: textColor,fontSize: 18),),
+
       ),
     );
   }

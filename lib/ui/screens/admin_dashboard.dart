@@ -5,7 +5,7 @@ import 'package:feedapp/ui/screens/sell%20info%20screen/client_list_screen.dart'
 import 'package:feedapp/ui/screens/sell%20info%20screen/enter_sell_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import '../../main.dart';
 import '../widgets/appbar_logo.dart';
 import '../widgets/dashboard_button.dart';
 
@@ -32,12 +32,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () async{
+              onPressed: () async {
                 await FirebaseAuth.instance.signOut();
                 LogInScreen.role = '';
                 setState(() {});
                 Navigator.pushAndRemoveUntil(
-                    context,
+                    MyApp.globalKey.currentContext!,
                     MaterialPageRoute(
                         builder: (context) => const LogInScreen()),
                     (route) => false);

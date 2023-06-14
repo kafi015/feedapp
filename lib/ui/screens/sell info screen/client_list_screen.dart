@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../../Data/network_utils.dart';
 import '../../../Data/urls.dart';
+import '../../../main.dart';
 import '../../utils/snakbar_message.dart';
 import '../../widgets/appbar_logo.dart';
+import '../../widgets/back_button.dart';
 import 'customer_info_update_screen.dart';
 
 class ClientListScreen extends StatefulWidget {
@@ -44,7 +46,7 @@ class _ClientListScreenState extends State<ClientListScreen> {
 
         List<dynamic> list = [];
         _foundCustomer = list;
-        showSnackBarMessage(context, "Unable to fetch data");
+        showSnackBarMessage(MyApp.globalKey.currentContext!, "Unable to fetch data");
       }
     } catch (e) {
       //print(e);
@@ -81,70 +83,72 @@ class _ClientListScreenState extends State<ClientListScreen> {
         leading: AppBarLogo(height: height),
         title: const Text("Client List"),
         centerTitle: true,
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back_ios),
-          ),
+        actions: const [
+          AppBackButton(),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-        child: Column(
-          children: [
-            SizedBox(
-              height: height * 0.04,
-            ),
-            AppTextFormField(
-                controller: searchName,
-                hintText: "Search the name",
-              onChanged: (value) => _runFilter(value!),
-            ),
-            SizedBox(
-              height: height * 0.04,
-            ),
-            Expanded(
-                child: inProgress
-                    ? const Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                    itemCount: _foundCustomer.length,
-                        itemBuilder: (context, index) {
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: height * 0.03),
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CustomerInfoUpdateScreen(
-                                                  customerId: '${_foundCustomer[index]['_id']}',
-                                                )));
-                                  },
-                                  child: Card(
-                                    elevation: 10,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(34.0),
-                                      side: const BorderSide(
-                                          color: Colors.blue, width: 1),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Center(
-                                          child: Text(
-                                            '${_foundCustomer[index]['name']}',
-                                            style: const TextStyle(
-                                                fontSize: 24, color: Colors.blue),
-                                          )),
+      body: RefreshIndicator(
+        onRefresh: ()async{
+          await getCustomerInfo();
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+          child: Column(
+            children: [
+              SizedBox(
+                height: height * 0.04,
+              ),
+              AppTextFormField(
+                  controller: searchName,
+                  hintText: "Search the name",
+                onChanged: (value) => _runFilter(value!),
+              ),
+              SizedBox(
+                height: height * 0.04,
+              ),
+              Expanded(
+                  child: inProgress
+                      ? const Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                      itemCount: _foundCustomer.length,
+                          itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: height * 0.03),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CustomerInfoUpdateScreen(
+                                                    customerId: '${_foundCustomer[index]['_id']}',
+                                                  )));
+                                    },
+                                    child: Card(
+                                      elevation: 10,
+                                      shadowColor: Colors.blue,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(34.0),
+                                        side: const BorderSide(
+                                            color: Colors.blue, width: 1),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Center(
+                                            child: Text(
+                                              '${_foundCustomer[index]['name']}',
+                                              style: const TextStyle(
+                                                  fontSize: 24, color: Colors.blue),
+                                            )),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
+                                );
 
-                        }))
-          ],
+                          }))
+            ],
+          ),
         ),
       ),
     );

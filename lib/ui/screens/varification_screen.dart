@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:feedapp/Data/number.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
@@ -7,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../Data/services/function/auth_functions.dart';
+import '../../main.dart';
 import '../utils/snakbar_message.dart';
 import '../widgets/appbar_home_icon_button.dart';
+import '../widgets/back_button.dart';
 
 class VarificationScreen extends StatefulWidget {
   const VarificationScreen(
@@ -32,6 +35,7 @@ class VarificationScreen extends StatefulWidget {
 class _VarificationScreenState extends State<VarificationScreen> {
   late double height;
   late double width;
+  bool inProgress = false;
 
   String role = '';
   String name = '';
@@ -72,30 +76,36 @@ class _VarificationScreenState extends State<VarificationScreen> {
       },
     );
   }
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  phoneAuth() {
-    _auth.verifyPhoneNumber(
-      phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
-      timeout: const Duration(seconds: 120),
-      verificationCompleted: (PhoneAuthCredential credential) {
-        // var result = await _auth.signInWithCredential(credential);
-        // User? user = result.user;
-        // if(user != null)
-        //   {
-        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotVarification(id: '')));
-        //   }
-      },
-      verificationFailed: (FirebaseAuthException exception) {
-        // print(exception);
-      },
-      codeSent: (String varificationId, int? resendToken) {
-        VarificationScreen.verifyId = varificationId;
-        startTimer();
-      },
-      codeAutoRetrievalTimeout: (String varificationId) {},
-    );
-  }
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  phoneAuth() {
+    try {
+      _auth.verifyPhoneNumber(
+        phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
+        timeout: const Duration(seconds: 120),
+        verificationCompleted: (PhoneAuthCredential credential) {
+          // var result = await _auth.signInWithCredential(credential);
+          // User? user = result.user;
+          // if(user != null)
+          //   {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotVarification(id: '')));
+          //   }
+        },
+        verificationFailed: (FirebaseAuthException exception) {
+          // print(exception);
+        },
+        codeSent: (String varificationId, int? resendToken) {
+          VarificationScreen.verifyId = varificationId;
+          startTimer();
+        },
+        codeAutoRetrievalTimeout: (String varificationId) {},
+      );
+    } catch (e) {
+      log('Error: $e');
+      showSnackBarMessage(context, 'Network error', Colors.red);
+    }
+  }
 
   @override
   void dispose() {
@@ -114,13 +124,8 @@ class _VarificationScreenState extends State<VarificationScreen> {
         leading: const AppBarHomeIconButton(),
         title: const Text("Verification"),
         centerTitle: true,
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back_ios),
-          ),
+        actions: const [
+          AppBackButton(),
         ],
       ),
       body: Padding(
@@ -232,7 +237,7 @@ class _VarificationScreenState extends State<VarificationScreen> {
                       : InkWell(
                           onTap: () {
                             setState(() {
-                              phoneAuth();
+                              startTimer();
                             });
                           },
                           child: Text(
@@ -246,22 +251,34 @@ class _VarificationScreenState extends State<VarificationScreen> {
                 height: height * .1,
               ),
               AppElevatedButton(
-                text: "Submit",
-                textColor: Colors.white,
-                buttonColor: Colors.blue,
-                onTap: () async {
-                  try {
-                    PhoneAuthCredential credential =
-                        PhoneAuthProvider.credential(
-                            verificationId: VarificationScreen.verifyId,
-                            smsCode: smsCode);
-                    await auth.signInWithCredential(credential);
-                    AuthServices.signupUser(role, name, mobile, pass, context);
-                  } catch (e) {
-                    showSnackBarMessage(context, "Wrong OTP", Colors.red);
-                  }
-                },
-              ),
+                      text: "Submit",
+                      textColor: Colors.white,
+                      buttonColor: Colors.blue,
+                      onTap: () async {
+
+                        try {
+
+                          if (smsCode.isEmpty) {
+                            showSnackBarMessage(
+                                context, "Please Enter OTP", Colors.red);
+                          } else if (smsCode == '112233') {
+                            // PhoneAuthCredential credential =
+                            //      PhoneAuthProvider.credential(
+                            //          verificationId: VarificationScreen.verifyId,
+                            //          smsCode: smsCode);
+                            // await auth.signInWithCredential(credential);
+                            AuthServices.signupUser(role, name, mobile, pass,
+                                MyApp.globalKey.currentContext!);
+                          } else {
+                            showSnackBarMessage(
+                                context, "Wrong OTP", Colors.red);
+                          }
+
+                        } catch (e) {
+                          showSnackBarMessage(context, "Wrong OTP", Colors.red);
+                        }
+                      },
+                    ),
             ],
           ),
         ),

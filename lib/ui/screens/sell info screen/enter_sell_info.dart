@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 
 import '../../../Data/network_utils.dart';
 import '../../../Data/urls.dart';
+import '../../../main.dart';
 import '../../utils/snakbar_message.dart';
+import '../../widgets/back_button.dart';
 import '../../widgets/enter_sell_info_text.dart';
 
 class EnterSellInfoScreen extends StatefulWidget {
@@ -54,16 +56,12 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
         leading: const AppBarHomeIconButton(),
         title: const Text("Sell info"),
         centerTitle: true,
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back_ios),
-          ),
+        actions: const [
+          AppBackButton(),
         ],
       ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Form(
           key: _formKey,
           child: Column(
@@ -165,6 +163,9 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                       controller: paidAmountEtController,
                       hintText: "Enter paid amount",
                       keyBoardType: TextInputType.number,
+                      onChanged: (value){
+                        dueAmountEtController.text = (int.parse(totalAmountEtController.text) - int.parse(value!)).toString();
+                      },
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return "Enter paid amount";
@@ -185,6 +186,7 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                       controller: dueAmountEtController,
                       hintText: "Enter due amount",
                       keyBoardType: TextInputType.number,
+
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return "Enter due amount";
@@ -246,11 +248,11 @@ class _EnterSellInfoScreenState extends State<EnterSellInfoScreen> {
                           noteEtController.clear();
                           selectedDate = DateTime.now();
                           setState(() {});
-                          showSnackBarMessage(context,
+                          showSnackBarMessage(MyApp.globalKey.currentContext!,
                               "Customer Information  Saved!", Colors.blue);
                         } else {
                           showSnackBarMessage(
-                              context,
+                              MyApp.globalKey.currentContext!,
                               "Failed to save customer information! Try again.",
                               Colors.red);
                         }

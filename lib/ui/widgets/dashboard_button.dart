@@ -14,12 +14,14 @@ class DashboardButton extends StatelessWidget {
       child: ElevatedButton(
 
           style: ElevatedButton.styleFrom(
+            elevation: 15,
+            shadowColor: Colors.blue,
             backgroundColor: const Color(0xffE8F3FB),
             side: const BorderSide(
                 width: 1,
                 color: Colors.blue
             ),
-            elevation: 15,
+
 
           ),
           onPressed: onTap,

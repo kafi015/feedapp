@@ -3,6 +3,7 @@ import 'package:feedapp/ui/screens/sell%20info%20screen/sell_info_due_check_scre
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import '../widgets/appbar_logo.dart';
+import '../widgets/back_button.dart';
 import '../widgets/dashboard_button.dart';
 import 'admin_dashboard.dart';
 
@@ -26,13 +27,8 @@ class _AdminstratorScreenState extends State<AdminstratorScreen> {
         leading: AppBarLogo(height: height),
         title: const Text("Adminstrator"),
         centerTitle: true,
-        actions: [
-          InkWell(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back_ios),
-          ),
+        actions: const [
+          AppBackButton(),
         ],
       ),
       body: Padding(

@@ -4,6 +4,7 @@ import 'package:feedapp/ui/utils/snakbar_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../main.dart';
 import '../../../ui/screens/accomplish_screen.dart';
 import 'firebase_functions.dart';
 
@@ -23,7 +24,7 @@ class AuthServices {
           role, name, mobile, pass, userCredential.user!.uid);
 
       Navigator.push(
-          context,
+          MyApp.globalKey.currentContext!,
           MaterialPageRoute(
               builder: (context) => const AccomplishScreen()));
 
@@ -48,24 +49,24 @@ class AuthServices {
 
       if(role == 'Employee')
         {
-          showSnackBarMessage(context, 'You are Logged in',Colors.blue);
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EmployeeDashboard()), (route) => false);
+          showSnackBarMessage(MyApp.globalKey.currentContext!, 'You are Logged in',Colors.blue);
+          Navigator.pushAndRemoveUntil(MyApp.globalKey.currentContext!, MaterialPageRoute(builder: (context) => const EmployeeDashboard()), (route) => false);
         }
       else if(role == 'Admin')
         {
-          showSnackBarMessage(context, 'You are Logged in',Colors.blue);
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const AdminDashboard()), (route) => false);
+          showSnackBarMessage(MyApp.globalKey.currentContext!, 'You are Logged in',Colors.blue);
+          Navigator.pushAndRemoveUntil(MyApp.globalKey.currentContext!, MaterialPageRoute(builder: (context) => const AdminDashboard()), (route) => false);
         }
       else
         {
-          showSnackBarMessage(context, 'LogIn error!',Colors.red);
+          showSnackBarMessage(MyApp.globalKey.currentContext!, 'LogIn error!',Colors.red);
         }
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        showSnackBarMessage(context, 'No user Found with this Email',Colors.red);
+        showSnackBarMessage(MyApp.globalKey.currentContext!, 'No user Found with this Email',Colors.red);
       } else if (e.code == 'wrong-password') {
-        showSnackBarMessage(context, 'Password did not match',Colors.red);
+        showSnackBarMessage(MyApp.globalKey.currentContext!, 'Password did not match',Colors.red);
       }
     }
   }

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../main.dart';
 import '../utils/snakbar_message.dart';
 import '../widgets/app_elevatedbutton.dart';
 import '../widgets/appbar_home_icon_button.dart';
@@ -175,7 +176,7 @@ class _ForgotVarificationState extends State<ForgotVarification> {
 
 
                     Navigator.push(
-                        context,
+                        MyApp.globalKey.currentContext!,
                         MaterialPageRoute(
                             builder: (context) => const PassChangeMessage()));
                   } catch (e) {

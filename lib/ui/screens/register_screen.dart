@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:feedapp/ui/screens/login_screen.dart';
 import 'package:feedapp/ui/screens/varification_screen.dart';
+import 'package:feedapp/ui/utils/snakbar_message.dart';
 import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:feedapp/ui/widgets/app_textformfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../Data/number.dart';
 import '../widgets/appbar_home_icon_button.dart';
+import '../widgets/back_button.dart';
 
 const List<String> list = <String>['Admin', 'Employee'];
 
@@ -30,34 +34,49 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  bool inProgress = false;
+
   phoneAuth() {
-    _auth.verifyPhoneNumber(
-      phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
-      verificationCompleted: (PhoneAuthCredential credential) {
-        // var result = await _auth.signInWithCredential(credential);
-        // User? user = result.user;
-        // if(user != null)
-        //   {
-        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotVarification(id: '')));
-        //   }
-      },
-      timeout: const Duration(seconds: 120),
-      verificationFailed: (FirebaseAuthException exception) {
-        // print(exception);
-      },
-      codeSent: (String varificationId, int? resendToken) {
-        VarificationScreen.verifyId = varificationId;
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => VarificationScreen(
-                    role: _dropDownValue,
-                    name: nameETController.text,
-                    mobile: emailETController.text,
-                    pass: passETController.text)));
-      },
-      codeAutoRetrievalTimeout: (String varificationId) {},
-    );
+    try {
+      inProgress = true;
+      setState(() {});
+      _auth.verifyPhoneNumber(
+        phoneNumber: MobileNumber.countryCode + MobileNumber.mobileNumber,
+        verificationCompleted: (PhoneAuthCredential credential) {
+          // var result = await _auth.signInWithCredential(credential);
+          // User? user = result.user;
+          // if(user != null)
+          //   {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotVarification(id: '')));
+          //   }
+        },
+        timeout: const Duration(seconds: 120),
+        verificationFailed: (FirebaseAuthException exception) {
+          inProgress = false;
+          setState(() {});
+           log("Exception: ${exception.toString()}");
+           showSnackBarMessage(context, exception.toString(),Colors.red);
+        },
+        codeSent: (String varificationId, int? resendToken) {
+          VarificationScreen.verifyId = varificationId;
+          inProgress = false;
+          setState(() {});
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => VarificationScreen(
+                      role: _dropDownValue,
+                      name: nameETController.text,
+                      mobile: emailETController.text,
+                      pass: passETController.text)));
+        },
+        codeAutoRetrievalTimeout: (String varificationId) {},
+      );
+
+    } catch (e) {
+      log('Error: $e');
+      showSnackBarMessage(context, 'Network error', Colors.red);
+    }
   }
 
   @override
@@ -71,13 +90,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         leading: const AppBarHomeIconButton(),
         title: const Text("Register"),
         centerTitle: true,
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back_ios),
-          ),
+        actions: const [
+          AppBackButton(),
         ],
       ),
       body: Padding(
@@ -227,17 +241,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 SizedBox(
                   height: height * .04,
                 ),
-                AppElevatedButton(
-                  text: "Register",
-                  textColor: Colors.white,
-                  buttonColor: Colors.blue,
-                  onTap: () async {
-                    //_formKey.currentState!.validate()
-                    if (_formKey.currentState!.validate()) {
-                      phoneAuth();
-                    }
-                  },
-                ),
+                inProgress
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : AppElevatedButton(
+                        text: "Register",
+                        textColor: Colors.white,
+                        buttonColor: Colors.blue,
+                        onTap: () async {
+                          //_formKey.currentState!.validate()
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VarificationScreen(
+                                        role: _dropDownValue,
+                                        name: nameETController.text,
+                                        mobile: emailETController.text,
+                                        pass: passETController.text)));
+                          }
+                        },
+                      ),
                 Container(
                   margin: EdgeInsets.only(
                       top: height * 0.05, bottom: height * 0.05),

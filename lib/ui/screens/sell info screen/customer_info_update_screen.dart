@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../Data/models/customer_info_model.dart';
 import '../../../Data/network_utils.dart';
 import '../../../Data/urls.dart';
+import '../../../main.dart';
 import '../../utils/snakbar_message.dart';
 import '../../widgets/app_elevatedbutton.dart';
 import '../../widgets/app_textformfield.dart';
@@ -26,8 +26,9 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
 
   late double height;
   late double width;
+  late int totalAmount, paidAmount;
   CustomerInfoModel _customerInfoModel = CustomerInfoModel();
-
+  bool inProgress = false;
 
   TextEditingController cutomerNameEtController = TextEditingController();
   TextEditingController totalAmountEtController = TextEditingController();
@@ -45,12 +46,12 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2020, 8),
-        lastDate: DateTime(2101));
+        lastDate: DateTime.now());
 
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-       // dateEtController.text = "${selectedDate.toLocal()}".split(' ')[0];
+        // dateEtController.text = "${selectedDate.toLocal()}".split(' ')[0];
         dateEtController.text = selectedDate.toString();
       });
     }
@@ -75,7 +76,8 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
 
         _customerInfoModel = CustomerInfoModel.fromJson(listResponse);
       } else {
-        showSnackBarMessage(context, "Unable to fetch data");
+        showSnackBarMessage(
+            MyApp.globalKey.currentContext!, "Unable to fetch data");
       }
     } catch (e) {
       //print(e);
@@ -92,17 +94,13 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
     noteEtController.text = _customerInfoModel.data?.first.note ?? 'Unknown';
 
     time = '${DateTime.now().toLocal()}'.split(' ')[1];
-    dateEtController.text = "${_customerInfoModel.data?.first.date }";
-    setState(() {
-
-    });
-
-
+    dateEtController.text = "${_customerInfoModel.data?.first.date}";
+    setState(() {});
   }
 
-  Future<void> updateCustomerDetails(String date,String total, String paid, String due, String note) async {
+  Future<void> updateCustomerDetails(
+      String date, String total, String paid, String due, String note) async {
     NetworkUtils().updateMethode(Urls.updateCustomerInfo(customerId), body: {
-
       "date": date,
       "total": total,
       "paid": paid,
@@ -197,8 +195,8 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
                     textBangla: 'মোট মূল্য',
                   ),
                   AppTextFormField(
-                      controller: totalAmountEtController,
-                      hintText: "Enter amount",
+                    controller: totalAmountEtController,
+                    hintText: "Enter amount",
                     keyBoardType: TextInputType.number,
                   ),
                   const SizedBox(
@@ -211,9 +209,10 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
                     textBangla: 'পরিশোধ করেছেন',
                   ),
                   AppTextFormField(
-                      controller: paidAmountEtController,
-                      hintText: "Enter paid amount",
-                    keyBoardType: TextInputType.number,),
+                    controller: paidAmountEtController,
+                    hintText: "Enter paid amount",
+                    keyBoardType: TextInputType.number,
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -254,7 +253,31 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
                   textColor: Colors.white,
                   buttonColor: Colors.blue,
                   onTap: () {
-                    updateCustomerDetails(dateEtController.text.split(' ')[0], totalAmountEtController.text, paidAmountEtController.text, dueAmountEtController.text, noteEtController.text);
+                    totalAmount = totalAmountEtController.text.contains('+')
+                        ? (int.parse(
+                                totalAmountEtController.text.split('+').first) +
+                            int.parse(
+                                totalAmountEtController.text.split('+').last))
+                        : int.parse(totalAmountEtController.text);
+
+                    paidAmount = paidAmountEtController.text.contains('+')
+                        ? (int.parse(
+                                paidAmountEtController.text.split('+').first) +
+                            int.parse(
+                                paidAmountEtController.text.split('+').last))
+                        : int.parse(paidAmountEtController.text);
+
+                    updateCustomerDetails(
+                        dateEtController.text.split(' ')[0],
+                        totalAmount.toString(),
+                        paidAmount.toString(),
+                        (totalAmount - paidAmount).toString(),
+                        noteEtController.text);
+
+                    totalAmountEtController.text = totalAmount.toString();
+                    paidAmountEtController.text = paidAmount.toString();
+                    dueAmountEtController.text =
+                        (totalAmount - paidAmount).toString();
                   }),
             ),
           ],

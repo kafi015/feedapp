@@ -10,12 +10,15 @@ class AppBarLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (){
-      },
-      child: Image.asset(
-        "assets/logo.png",
-        scale: height/150,
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0,top: 5.0,bottom: 5.0),
+      child: InkWell(
+        onTap: (){
+        },
+        child: Image.asset(
+          "assets/logo.png",
+          scale: height/200,
+        ),
       ),
     );
   }

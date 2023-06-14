@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../Data/network_utils.dart';
 import '../../Data/urls.dart';
+import '../../main.dart';
 import '../utils/snakbar_message.dart';
 import '../widgets/app_elevatedbutton.dart';
 import '../widgets/app_textformfield.dart';
@@ -42,11 +43,11 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
 
     if(response != null)
       {
-        showSnackBarMessage(context, "Pasword Updated Successfully",Colors.blue);
+        showSnackBarMessage(MyApp.globalKey.currentContext!, "Pasword Updated Successfully",Colors.blue);
       }
     else
       {
-        showSnackBarMessage(context, "Pasword Update Request Failed",Colors.red);
+        showSnackBarMessage(MyApp.globalKey.currentContext!, "Pasword Update Request Failed",Colors.red);
       }
 
   }
