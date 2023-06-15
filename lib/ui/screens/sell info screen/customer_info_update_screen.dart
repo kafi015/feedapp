@@ -77,7 +77,7 @@ class _CustomerInfoUpdateScreenState extends State<CustomerInfoUpdateScreen> {
         _customerInfoModel = CustomerInfoModel.fromJson(listResponse);
       } else {
         showSnackBarMessage(
-            MyApp.globalKey.currentContext!, "Unable to fetch data");
+            MyApp.globalKey.currentContext!, "Please check your internet connection!",Colors.red);
       }
     } catch (e) {
       //print(e);

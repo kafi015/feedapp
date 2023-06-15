@@ -44,7 +44,7 @@ class _PriceChangeScreenState extends State<PriceChangeScreen> {
       } else {
         List<dynamic> list = [];
         _foundCustomer = list;
-        showSnackBarMessage(MyApp.globalKey.currentContext!, "Unable to fetch data", Colors.red);
+        showSnackBarMessage(MyApp.globalKey.currentContext!, "Please check your internet connection!", Colors.red);
       }
     } catch (e) {
       //print(e);

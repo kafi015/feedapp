@@ -55,7 +55,7 @@ class _SellInfoDueCheckScreenState extends State<SellInfoDueCheckScreen> {
         _customerInfoModel = CustomerInfoModel.fromJson(respone);
         dateCompare = '${selectedDate.toLocal()}'.split(' ').first;
       } else {
-        showSnackBarMessage(MyApp.globalKey.currentContext!, "Unable to fetch data");
+        showSnackBarMessage(MyApp.globalKey.currentContext!, "Please check your internet connection!",Colors.red);
       }
     } catch (e) {
       //print(e);

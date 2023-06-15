@@ -3,6 +3,11 @@ import 'package:feedapp/ui/widgets/app_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../Data/network_utils.dart';
+import '../../Data/urls.dart';
+import '../../main.dart';
+import '../utils/snakbar_message.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -13,6 +18,31 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   late double height;
   late double width;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCustomerInfo();
+    Future.delayed(const Duration(seconds: 2));
+
+  }
+
+  Future<void> getCustomerInfo() async {
+    try {
+      final respone = await NetworkUtils().getMethod(Urls.customerInfoUrl);
+      //print(respone);
+      if (respone != null) {
+
+      } else {
+
+        showSnackBarMessage(MyApp.globalKey.currentContext!, "Please check your internet connection!",Colors.red);
+        Future.delayed(const Duration(seconds: 2));
+      }
+    } catch (e) {
+      //print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +205,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Text(
                     "Buy.Convince",
                     style: TextStyle(
-                        fontSize: height * 0.038,
+                        fontSize: height * 0.035,
                         color: Colors.white,
                         fontWeight: FontWeight.w600),
                   ),

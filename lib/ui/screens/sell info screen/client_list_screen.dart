@@ -46,7 +46,7 @@ class _ClientListScreenState extends State<ClientListScreen> {
 
         List<dynamic> list = [];
         _foundCustomer = list;
-        showSnackBarMessage(MyApp.globalKey.currentContext!, "Unable to fetch data");
+        showSnackBarMessage(MyApp.globalKey.currentContext!, "Please check your internet connection!",Colors.red);
       }
     } catch (e) {
       //print(e);
