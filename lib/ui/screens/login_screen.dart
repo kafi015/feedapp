@@ -227,7 +227,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               passETController.text, _dropDownValue, context);
                         } else {
                           showSnackBarMessage(context,
-                              'This email is not exist in $_dropDownValue database', Colors.red);
+                              'No user Found with this Email', Colors.red);
                         }
                       }
                     },
