@@ -17,7 +17,6 @@ async {
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
-
   static GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 
   @override
